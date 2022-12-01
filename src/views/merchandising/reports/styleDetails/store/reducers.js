@@ -73,7 +73,7 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_DEPARTMENT: {
-      const departmentDDL = mapArrayToDropdown( payload.departments, 'buyerDepartment', 'buyerDepartmentId' );
+      const departmentDDL = mapArrayToDropdown( payload.departments, 'name', 'id' );
       return { ...state, departments: departmentDDL, isDepartmentLoading: true };
     }
 

@@ -23,8 +23,8 @@ export const fetchAllBuyers = () => async dispatch => {
 
 //fetch department by buyer
 export const fetchDepartmentByBuyer = buyerId => async dispatch => {
-  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_department_by_buyer( buyerId ) );
-  const departments = response.data.data;
+  const response = await merchandisingAxios.get( STYLES_DETAILS_API.fetch_department_by_buyer( buyerId ) );
+  const departments = response.data;
   dispatch( {
     type: FETCH_DEPARTMENT,
     payload: { departments, isDepartmentLoading: !!departments?.length }

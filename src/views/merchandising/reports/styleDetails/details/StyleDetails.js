@@ -10,7 +10,7 @@ import NoPhoto from '@custom-assets/images/reports/NoPhoto.jpg';
 import '@custom-styles/reporting/reporting-core.scss';
 import { selectThemeColors } from '@utility/Utils';
 import { default as classnames } from 'classnames';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
@@ -24,8 +24,7 @@ import {
   fetchDepartmentByBuyer,
   fetchSeasonByBuyerDepartmentAndYear,
   fetchStyleByBuyerDepartmentYearAndSeason,
-  fetchStyleDetailsByStyle,
-  fetchYearByDepartment
+  fetchStyleDetailsByStyle
 } from '../store/actions';
 import { BUYER_CHANGE, DEPARTMENT_CHANGE, LOADING, SEASON_CHANGE, STYLE_CHANGE, YEAR_CHANGE } from '../store/actionType';
 const { REACT_APP_MERCHANDISING_REPORT_BASE_URL } = process.env;
@@ -40,7 +39,6 @@ const StyleDetails = () => {
     selectedBuyer,
     departments,
     selectedDepartment,
-    years,
     selectedYear,
     seasons,
     selectedSeason,
@@ -55,6 +53,12 @@ const StyleDetails = () => {
   } = useSelector( ( { styleDetailsReducer } ) => styleDetailsReducer );
   //#endregion
 
+  //#region States
+  const [years, setYears] = useState();
+  const [year, setYear] = useState();
+  //#endregion
+
+
   //#region Effects
   useEffect( () => {
     dispatch( fetchAllBuyers() );
@@ -66,11 +70,32 @@ const StyleDetails = () => {
   //   notify('warning', 'There have no data');
   // }
 
+  //For Year List
+  const generateYearsArray = () => {
+    const presentYear = new Date().getFullYear();
+    const prevYear = presentYear - 5;
+    const futureYear = presentYear + 5;
+    const yearList = [];
+    for ( let i = presentYear; i >= prevYear; i-- ) {
+      yearList.unshift( i );
+    }
+
+    for ( let i = presentYear + 1; i < futureYear; i++ ) {
+      yearList.push( i );
+    }
+    const yearsArrayOfObject = yearList.map( year => ( {
+      label: year,
+      value: year
+    } ) );
+    setYears( yearsArrayOfObject );
+    return yearsArrayOfObject;
+  };
+
   //For Buyer Chnage
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE, payload: buyer ? buyer : null } );
-      dispatch( fetchDepartmentByBuyer( buyer.buyerId ) );
+      dispatch( fetchDepartmentByBuyer( buyer.id ) );
     } else {
       dispatch( { type: BUYER_CHANGE, payload: null } );
     }
@@ -80,11 +105,13 @@ const StyleDetails = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
-      dispatch( fetchYearByDepartment( department.value ) );
+      // dispatch( fetchYearByDepartment( department.value ) );
+      setYears( generateYearsArray() );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
     }
   };
+
 
   //For Year Change
   const onYearChange = year => {
@@ -226,12 +253,12 @@ const StyleDetails = () => {
                   id="year"
                   isSearchable
                   bsSize="sm"
-                  isLoading={isYearLoading && !selectedYear}
+                  isLoading={isYearLoading && !year}
                   isClearable
                   theme={selectThemeColors}
                   options={years}
-                  value={selectedYear}
-                  onChange={onYearChange}
+                  value={year}
+                  onChange={( date ) => setYear( date )}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
                   isDisabled={!selectedDepartment}
