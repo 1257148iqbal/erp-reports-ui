@@ -109,7 +109,7 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_SEASON: {
-      const seasonDDL = mapArrayToDropdown( payload.seasons, 'season', 'season' );
+      const seasonDDL = mapArrayToDropdown( payload.seasons, 'name', 'id' );
       return { ...state, seasons: seasonDDL, isSeasonsLoading: payload.isSeasonsLoading };
     }
 

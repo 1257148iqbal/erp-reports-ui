@@ -26,7 +26,7 @@ import {
   fetchStyleByBuyerDepartmentYearAndSeason,
   fetchStyleDetailsByStyle
 } from '../store/actions';
-import { BUYER_CHANGE, DEPARTMENT_CHANGE, LOADING, SEASON_CHANGE, STYLE_CHANGE, YEAR_CHANGE } from '../store/actionType';
+import { BUYER_CHANGE, DEPARTMENT_CHANGE, LOADING, SEASON_CHANGE, STYLE_CHANGE } from '../store/actionType';
 const { REACT_APP_MERCHANDISING_REPORT_BASE_URL } = process.env;
 
 
@@ -96,6 +96,8 @@ const StyleDetails = () => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE, payload: buyer ? buyer : null } );
       dispatch( fetchDepartmentByBuyer( buyer.id ) );
+      dispatch( fetchSeasonByBuyerDepartmentAndYear( buyer.id ) );
+
     } else {
       dispatch( { type: BUYER_CHANGE, payload: null } );
     }
@@ -112,16 +114,6 @@ const StyleDetails = () => {
     }
   };
 
-
-  //For Year Change
-  const onYearChange = year => {
-    if ( year ) {
-      dispatch( { type: YEAR_CHANGE, payload: year } );
-      dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.buyerId, selectedDepartment.buyerDepartmentId, year.value ) );
-    } else {
-      dispatch( { type: YEAR_CHANGE, payload: null } );
-    }
-  };
 
   //For Season Change
   const onSeasonChange = season => {
@@ -261,7 +253,7 @@ const StyleDetails = () => {
                   onChange={( date ) => setYear( date )}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedDepartment}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* year dropdown end */}
@@ -283,7 +275,7 @@ const StyleDetails = () => {
                   onChange={onSeasonChange}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedYear}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* season dropdown end */}
