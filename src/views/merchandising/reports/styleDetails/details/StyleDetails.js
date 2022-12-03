@@ -39,6 +39,7 @@ const StyleDetails = () => {
     departments,
     selectedDepartment,
     selectedYear,
+    isBuyerLoading,
     seasons,
     selectedSeason,
     styles,
@@ -60,6 +61,7 @@ const StyleDetails = () => {
 
   //#region Effects
   useEffect( () => {
+    console.log( 'in effect' );
     dispatch( fetchAllBuyers() );
   }, [dispatch] );
 
@@ -177,6 +179,7 @@ const StyleDetails = () => {
     }
   ];
 
+
   return (
     <div className="p-1 mt-3">
       <ActionMenu title="Style Details" moreButton={false} breadcrumb={breadcrumb}>
@@ -211,7 +214,7 @@ const StyleDetails = () => {
                 <Select
                   id="buyer"
                   isSearchable
-                  isLoading={!selectedBuyer}
+                  isLoading={isBuyerLoading && !selectedBuyer}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}
