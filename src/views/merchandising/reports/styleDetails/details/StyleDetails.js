@@ -21,9 +21,7 @@ import { STYLES_DETAILS_API } from '../../../../../services/api-end-points/merch
 import { baseUrl } from '../../../../../utility/enums';
 import {
   fetchAllBuyers,
-  fetchDepartmentByBuyer,
-  fetchSeasonByBuyerDepartmentAndYear,
-  fetchStyleByBuyerDepartmentYearAndSeason,
+  fetchDepartmentByBuyer, fetchSeasonByBuyerDepartmentAndYear, fetchStyleByBuyerDepartmentYearAndSeason,
   fetchStyleDetailsByStyle
 } from '../store/actions';
 import { BUYER_CHANGE, DEPARTMENT_CHANGE, LOADING, SEASON_CHANGE, STYLE_CHANGE } from '../store/actionType';
@@ -58,7 +56,6 @@ const StyleDetails = () => {
   const [year, setYear] = useState();
   //#endregion
 
-
   //#region Effects
   useEffect( () => {
     dispatch( fetchAllBuyers() );
@@ -74,7 +71,7 @@ const StyleDetails = () => {
   const generateYearsArray = () => {
     const presentYear = new Date().getFullYear();
     const prevYear = presentYear - 5;
-    const futureYear = presentYear + 5;
+    const futureYear = presentYear + 4;
     const yearList = [];
     for ( let i = presentYear; i >= prevYear; i-- ) {
       yearList.unshift( i );
@@ -96,8 +93,6 @@ const StyleDetails = () => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE, payload: buyer ? buyer : null } );
       dispatch( fetchDepartmentByBuyer( buyer.id ) );
-      dispatch( fetchSeasonByBuyerDepartmentAndYear( buyer.id ) );
-
     } else {
       dispatch( { type: BUYER_CHANGE, payload: null } );
     }
@@ -107,24 +102,51 @@ const StyleDetails = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
-      // dispatch( fetchYearByDepartment( department.value ) );
       setYears( generateYearsArray() );
+      setYear( null );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
+      setYear( null );
     }
   };
-
 
   //For Season Change
   const onSeasonChange = season => {
     if ( season ) {
       dispatch( { type: SEASON_CHANGE, payload: season } );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.id
+        },
+        {
+          column: "departmentId",
+          value: selectedDepartment?.id
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: season?.id
+        }
+      ];
+
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
       dispatch(
-        fetchStyleByBuyerDepartmentYearAndSeason( selectedBuyer.buyerId, selectedDepartment.buyerDepartmentId, selectedYear.year, season.value )
+        fetchStyleByBuyerDepartmentYearAndSeason( filteredData )
       );
     } else {
       dispatch( { type: SEASON_CHANGE, payload: season } );
     }
+  };
+
+  //For Year Change
+  const onYearChange = ( date ) => {
+    setYear( date );
+    dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.id ) );
+
   };
 
   //For Style Change
@@ -250,10 +272,10 @@ const StyleDetails = () => {
                   theme={selectThemeColors}
                   options={years}
                   value={year}
-                  onChange={( date ) => setYear( date )}
+                  onChange={onYearChange}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedBuyer}
+                  isDisabled={!selectedDepartment}
                 />
               </FormGroup>
               {/* year dropdown end */}
@@ -275,7 +297,7 @@ const StyleDetails = () => {
                   onChange={onSeasonChange}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedBuyer}
+                  isDisabled={!year}
                 />
               </FormGroup>
               {/* season dropdown end */}

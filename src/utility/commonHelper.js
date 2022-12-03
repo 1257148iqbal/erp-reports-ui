@@ -11,7 +11,7 @@ import { ToWords } from 'to-words';
 import { consoleType, single as ones, tens } from './enums';
 
 export const mapArrayToDropdown = ( arr = [], label, value ) => {
-  return arr.map( item => ( {
+  return arr?.map( item => ( {
     ...item,
     label: item[label],
     value: item[value]

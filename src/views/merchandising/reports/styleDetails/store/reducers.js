@@ -118,8 +118,12 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_STYLE: {
-      const styleDDL = mapArrayToDropdown( payload.styles, 'styleNo', 'id' );
+      let styleDDL = [];
+      if ( payload.styles?.length ) {
+        styleDDL = mapArrayToDropdown( payload.styles, 'styleNo', 'id' );
+      }
       return { ...state, styles: styleDDL, isStyleLoading: payload.isStyleLoading };
+
     }
 
     case STYLE_CHANGE: {

@@ -14,7 +14,6 @@ import { FETCH_BUYER, FETCH_DEPARTMENT, FETCH_SEASON, FETCH_STYLE, FETCH_STYLE_D
 export const fetchAllBuyers = () => async dispatch => {
   const response = await merchandisingAxios.get( `${STYLES_DETAILS_API.fetch_buyers}` );
   const buyers = response.data.data;
-  console.log( buyers );
   dispatch( {
     type: FETCH_BUYER,
     payload: { buyers, isBuyerLoading: !!buyers?.length }
@@ -53,8 +52,8 @@ export const fetchSeasonByBuyerDepartmentAndYear = ( buyerId ) => async dispatch
 };
 
 //fetch season by buyerId, buyerDepartmentId and year
-export const fetchStyleByBuyerDepartmentYearAndSeason = ( buyerId, buyerDepartmentId, year, season ) => async dispatch => {
-  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_style_by_buyer_department_year_season( buyerId, buyerDepartmentId, year, season ) );
+export const fetchStyleByBuyerDepartmentYearAndSeason = ( queryData ) => async dispatch => {
+  const response = await merchandisingAxios.post( `${STYLES_DETAILS_API.fetch_style_by_buyer_department_year_season}`, queryData );
   const styles = response.data.data;
   dispatch( {
     type: FETCH_STYLE,
