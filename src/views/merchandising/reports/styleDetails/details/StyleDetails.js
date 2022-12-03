@@ -18,6 +18,7 @@ import { Badge, Button, Card, Col, FormGroup, Label, NavItem, Row, Table } from 
 import { v4 as uuid } from 'uuid';
 import ActionMenu from '../../../../../layouts/components/menu/action-menu';
 import { STYLES_DETAILS_API } from '../../../../../services/api-end-points/merchandising/v1/stylesDetails';
+import { generatePreviousAndNextYears } from '../../../../../utility/commonHelper';
 import { baseUrl } from '../../../../../utility/enums';
 import {
   fetchAllBuyers,
@@ -38,6 +39,7 @@ const StyleDetails = () => {
     departments,
     selectedDepartment,
     selectedYear,
+    isBuyerLoading,
     seasons,
     selectedSeason,
     styles,
@@ -56,10 +58,19 @@ const StyleDetails = () => {
   const [year, setYear] = useState();
   //#endregion
 
+
   //#region Effects
   useEffect( () => {
+    console.log( 'in effect' );
     dispatch( fetchAllBuyers() );
   }, [dispatch] );
+
+  useEffect( () => {
+    const yearsArray = generatePreviousAndNextYears( 5, 4 );
+    setYears( yearsArray );
+  }, [] );
+
+
   //#endregion
 
   //#region Events
@@ -67,26 +78,6 @@ const StyleDetails = () => {
   //   notify('warning', 'There have no data');
   // }
 
-  //For Year List
-  const generateYearsArray = () => {
-    const presentYear = new Date().getFullYear();
-    const prevYear = presentYear - 5;
-    const futureYear = presentYear + 4;
-    const yearList = [];
-    for ( let i = presentYear; i >= prevYear; i-- ) {
-      yearList.unshift( i );
-    }
-
-    for ( let i = presentYear + 1; i < futureYear; i++ ) {
-      yearList.push( i );
-    }
-    const yearsArrayOfObject = yearList.map( year => ( {
-      label: year,
-      value: year
-    } ) );
-    setYears( yearsArrayOfObject );
-    return yearsArrayOfObject;
-  };
 
   //For Buyer Chnage
   const onBuyerChange = buyer => {
@@ -102,7 +93,6 @@ const StyleDetails = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
-      setYears( generateYearsArray() );
       setYear( null );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
@@ -189,6 +179,7 @@ const StyleDetails = () => {
     }
   ];
 
+
   return (
     <div className="p-1 mt-3">
       <ActionMenu title="Style Details" moreButton={false} breadcrumb={breadcrumb}>
@@ -223,7 +214,7 @@ const StyleDetails = () => {
                 <Select
                   id="buyer"
                   isSearchable
-                  isLoading={!selectedBuyer}
+                  isLoading={isBuyerLoading && !selectedBuyer}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}

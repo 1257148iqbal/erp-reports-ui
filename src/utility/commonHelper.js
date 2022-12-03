@@ -210,6 +210,26 @@ export const convertDecimalToWords = ( n ) => {
   }
 };
 
+//For generate year select list with previous and next year
+export const generatePreviousAndNextYears = ( prev, next ) => {
+  const presentYear = new Date().getFullYear();
+  const prevYear = presentYear - prev;
+  const futureYear = presentYear + next;
+  const yearList = [];
+  for ( let i = presentYear; i >= prevYear; i-- ) {
+    yearList.unshift( i );
+  }
+
+  for ( let i = presentYear + 1; i < futureYear; i++ ) {
+    yearList.push( i );
+  }
+  const yearsArrayOfObject = yearList.map( year => ( {
+    label: year,
+    value: year
+  } ) );
+  return yearsArrayOfObject;
+};
+
 
 /** Change Log
  * 27-March-2022 (Iqbal): Create A function for Serial Number in Dropdown

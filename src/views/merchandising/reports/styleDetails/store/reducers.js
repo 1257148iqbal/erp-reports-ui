@@ -53,7 +53,7 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
 
     case FETCH_BUYER: {
       const buyerDDL = mapArrayToDropdown( payload.buyers, 'name', 'id' );
-      return { ...state, buyers: buyerDDL, isBuyerLoading: true };
+      return { ...state, buyers: buyerDDL, isBuyerLoading: payload.isBuyerLoading };
     }
 
     case BUYER_CHANGE: {
@@ -74,7 +74,7 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
 
     case FETCH_DEPARTMENT: {
       const departmentDDL = mapArrayToDropdown( payload.departments, 'name', 'id' );
-      return { ...state, departments: departmentDDL, isDepartmentLoading: true };
+      return { ...state, departments: departmentDDL, isDepartmentLoading: payload.isDepartmentLoading };
     }
 
     case DEPARTMENT_CHANGE: {

@@ -10,13 +10,14 @@ import NoPhoto from '@custom-assets/images/reports/NoPhoto.jpg';
 import '@custom-styles/reporting/reporting-core.scss';
 import { selectThemeColors } from '@utility/Utils';
 import classNames from 'classnames';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { Badge, Button, Card, Col, FormGroup, Label, NavItem, Row, Table } from 'reactstrap';
 import { v4 as uuid } from 'uuid';
 import ActionMenu from '../../../../../layouts/components/menu/action-menu';
 import { PRE_COSTING_SHEET_API } from '../../../../../services/api-end-points/merchandising/v1/preCostingSheet';
+import { generatePreviousAndNextYears } from '../../../../../utility/commonHelper';
 import { baseUrl } from '../../../../../utility/enums';
 import {
   fetchAllBuyers,
@@ -24,8 +25,7 @@ import {
   fetchDepartmentByBuyer,
   fetchPreCostingSheet,
   fetchSeasonByBuyerDepartmentAndYear,
-  fetchStyleByBuyerDepartmentYearAndSeason,
-  fetchYearByDepartment
+  fetchStyleByBuyerDepartmentYearAndSeason
 } from '../store/actions';
 import {
   BUYER_CHANGE_PRE_COSTING_SHEET,
@@ -33,8 +33,7 @@ import {
   DEPARTMENT_CHANGE_PRE_COSTING_SHEET,
   LOADING,
   SEASON_CHANGE_PRE_COSTING_SHEET,
-  STYLE_CHANGE_PRE_COSTING_SHEET,
-  YEAR_CHANGE_PRE_COSTING_SHEET
+  STYLE_CHANGE_PRE_COSTING_SHEET
 } from '../store/actionType';
 const { REACT_APP_MERCHANDISING_REPORT_BASE_URL } = process.env;
 
@@ -48,7 +47,6 @@ const PreCostingSheet = () => {
     selectedBuyer,
     departments,
     selectedDepartment,
-    years,
     selectedYear,
     seasons,
     selectedSeason,
@@ -65,10 +63,23 @@ const PreCostingSheet = () => {
     isBuyerLoading
   } = useSelector( ( { preCostingSheetReducer } ) => preCostingSheetReducer );
   //#endregion
+
+  //#region States
+  const [years, setYears] = useState();
+  const [year, setYear] = useState();
+  //#endregion
+
+
   //#region Effects
   useEffect( () => {
     dispatch( fetchAllBuyers() );
   }, [dispatch] );
+
+  useEffect( () => {
+    const yearsArray = generatePreviousAndNextYears( 5, 4 );
+    setYears( yearsArray );
+  }, [] );
+
   //#endregion
 
   //#region Evets
@@ -83,6 +94,8 @@ const PreCostingSheet = () => {
       dispatch( fetchDepartmentByBuyer( buyer.value ) );
     } else {
       dispatch( { type: BUYER_CHANGE_PRE_COSTING_SHEET, payload: null } );
+      setYear( null );
+
     }
   };
 
@@ -90,27 +103,58 @@ const PreCostingSheet = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: department } );
-      dispatch( fetchYearByDepartment( department.value ) );
+      // dispatch( fetchYearByDepartment( department.value ) );
+      setYear( null );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: null } );
+      setYear( null );
     }
   };
 
+  // const onYearChange = year => {
+  //   if ( year ) {
+  //     dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: year } );
+  //     dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.value, selectedDepartment.value, year.value ) );
+  //   } else {
+  //     dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: null } );
+  //   }
+  // };
+
   //For Year Change
-  const onYearChange = year => {
-    if ( year ) {
-      dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: year } );
-      dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.value, selectedDepartment.value, year.value ) );
-    } else {
-      dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: null } );
-    }
+  const onYearChange = ( date ) => {
+    setYear( date );
+    dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.value ) );
+
   };
 
   //For Season Change
   const onSeasonChange = season => {
     if ( season ) {
       dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: season } );
-      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( selectedBuyer.value, selectedDepartment.value, selectedYear.value, season.value ) );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.value
+        },
+        {
+          column: "departmentId",
+          value: selectedDepartment?.value
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: season?.value
+        }
+      ];
+
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+      dispatch(
+        fetchStyleByBuyerDepartmentYearAndSeason( filteredData )
+      );
+
     } else {
       dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: null } );
     }
@@ -273,7 +317,7 @@ const PreCostingSheet = () => {
                   isLoading={isYearLoading && !selectedYear}
                   theme={selectThemeColors}
                   options={years}
-                  value={selectedYear}
+                  value={year}
                   onChange={onYearChange}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
@@ -299,7 +343,7 @@ const PreCostingSheet = () => {
                   onChange={onSeasonChange}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedYear}
+                  isDisabled={!year}
                 />
               </FormGroup>
               {/* season dropdown end */}

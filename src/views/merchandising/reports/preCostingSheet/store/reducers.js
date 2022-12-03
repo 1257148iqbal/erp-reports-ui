@@ -57,7 +57,7 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_BUYER_PRE_COSTING_SHEET: {
-      const buyerDDL = mapArrayToDropdown( payload.buyers, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload.buyers, 'name', 'id' );
       return { ...state, buyers: buyerDDL, isBuyerLoading: payload.isBuyerLoading };
     }
 
@@ -80,7 +80,7 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_DEPARTMENT_PRE_COSTING_SHEET: {
-      const departmentDDL = mapArrayToDropdown( payload.departments, 'buyerDepartment', 'buyerDepartmentId' );
+      const departmentDDL = mapArrayToDropdown( payload.departments, 'name', 'id' );
       return { ...state, departments: departmentDDL, isDepartmentLoading: payload.isDepartmentLoading };
     }
 
@@ -120,7 +120,7 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_SEASON_PRE_COSTING_SHEET: {
-      const yearDDL = mapArrayToDropdown( payload.seasons, 'season', 'season' );
+      const yearDDL = mapArrayToDropdown( payload.seasons, 'name', 'id' );
       return { ...state, seasons: yearDDL, isSeasonsLoading: payload.isSeasonsLoading };
     }
 
