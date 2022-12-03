@@ -70,7 +70,13 @@ const MaterialStatusStyleAndPoWise = () => {
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE, payload: buyer } );
-      dispatch( fetchStyleByBuyerMaterialStatus( buyer.buyerId ) );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: buyer?.id
+        }
+      ];
+      dispatch( fetchStyleByBuyerMaterialStatus( defaultFilteredArrayValue ) );
     } else {
       dispatch( { type: BUYER_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE, payload: null } );
     }
@@ -80,7 +86,7 @@ const MaterialStatusStyleAndPoWise = () => {
   const onStyleChange = style => {
     if ( style ) {
       dispatch( { type: STYLE_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE, payload: style } );
-      dispatch( fetchPurchaseOrdersByStyleMaterialStatus( style.value ) );
+      dispatch( fetchPurchaseOrdersByStyleMaterialStatus( selectedBuyer.id, style.value ) );
     } else {
       dispatch( { type: STYLE_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE, payload: null } );
     }
@@ -98,7 +104,7 @@ const MaterialStatusStyleAndPoWise = () => {
   // For Click Item Details
 
   const onItemDetailsFetch = ( itemCategoryId, index ) => {
-    const orderIds = selectedPos?.map( oi => oi.id ).toString();
+    const orderIds = selectedPos?.map( oi => oi.orderId ).toString();
     if ( selectedPos ) {
       dispatch( fetchMaterialStatusStyleAndPoItemDetails( selectedStyle.id, itemCategoryId, index, orderIds ) );
     } else {
@@ -109,7 +115,7 @@ const MaterialStatusStyleAndPoWise = () => {
 
   // For Report View
   const onReportView = () => {
-    const orderIds = selectedPos?.map( oi => oi.id ).toString();
+    const orderIds = selectedPos?.map( oi => oi.orderId ).toString();
     if ( selectedPos ) {
       dispatch( fetchMaterialStatusStyleAndPoWise( selectedStyle.id, orderIds ) );
     } else {
@@ -120,16 +126,18 @@ const MaterialStatusStyleAndPoWise = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const orderIds = selectedPos?.map( oi => oi.id ).toString();
+    const orderIds = selectedPos?.map( oi => oi.orderId ).toString();
     let url = "";
     if ( selectedPos.length ) {
       url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( selectedStyle.id, orderIds )}`;
     } else {
-      const poIds = pos?.map( oi => oi.id ).toString();
+      const poIds = pos?.map( oi => oi.orderId ).toString();
       url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( selectedStyle.id, poIds )}`;
     }
     return window.open( url, '_blank' );
   };
+
+  console.log( pos );
 
   //#endregion
 
@@ -244,7 +252,7 @@ const MaterialStatusStyleAndPoWise = () => {
 
               {/* View dropdown start */}
               <FormGroup tag={Col} xs={12} sm={6} md={4} lg={1} xl={1}>
-                <Button size="sm" color="primary" className="mt-2" onClick={onReportView} disabled={!selectedStyle}>
+                <Button size="sm" color="primary" className="mt-2" onClick={onReportView} disabled={!selectedStyle || !pos?.length}>
                   View
                 </Button>
               </FormGroup>
@@ -252,7 +260,7 @@ const MaterialStatusStyleAndPoWise = () => {
 
               {/* Print Report start */}
               <FormGroup tag={Col} xs={12} sm={3} md={2} lg={1} xl={1}>
-                <Button size="sm" color="warning" className="mt-2" onClick={onReportPrint} disabled={!selectedStyle}>
+                <Button size="sm" color="warning" className="mt-2" onClick={onReportPrint} disabled={!selectedStyle || !pos?.length}>
                   Report
                 </Button>
               </FormGroup>

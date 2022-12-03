@@ -43,7 +43,7 @@ export const materialStatusStyleAndPOWiseReducer = ( state = initialState, actio
     }
 
     case FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE: {
-      const buyerDDL = mapArrayToDropdown( payload, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, buyers: buyerDDL };
     }
 
@@ -69,7 +69,7 @@ export const materialStatusStyleAndPOWiseReducer = ( state = initialState, actio
     }
 
     case FETCH_PURCHASE_ORDER_BY_STYLE_ID_MATERIAL_STATUS: {
-      const pos = mapArrayToDropdown( payload.pos, 'orderNumber', 'id' );
+      const pos = mapArrayToDropdown( payload.pos, 'orderNumber', 'orderId' );
       return { ...state, pos, isPosLoading: payload.isPosLoading };
     }
 

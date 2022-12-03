@@ -9,7 +9,6 @@
 export const STYLES_DETAILS_API = {
   fetch_All_Buyer: '/api/reports/StyleDetails/GetAllBuyer',
   fetch_buyers: '/api/merchandising/buyers',
-  // fetch_department_by_buyer: buyerId => `/api/reports/StyleDetails/GetDepartment/Buyer/${buyerId}`,
   fetch_department_by_buyer: buyerId => `/api/merchandising/buyers/${buyerId}/departments`,
   fetch_style_by_buyer: buyerId => `/api/reports/StyleDetails/GetStyle/Buyer/${buyerId}`,
   fetch_year_by_department: buyerDepartmentId => `/api/reports/StyleDetails/GetYear/Department/${buyerDepartmentId}`,

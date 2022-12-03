@@ -38,7 +38,7 @@ export const budgetSheetReducer = ( state = initialState, action ) => {
     }
 
     case FETCH_ALL_BUYER_BUDGET_SHEET: {
-      const buyerDDL = mapArrayToDropdown( payload, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, buyers: buyerDDL };
     }
 

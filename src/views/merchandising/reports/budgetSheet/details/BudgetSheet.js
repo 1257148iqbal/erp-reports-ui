@@ -48,7 +48,7 @@ const BudgetSheet = () => {
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: CHANGE_BUYER_BUDGET_SHEET, payload: buyer ? buyer : null } );
-      dispatch( fetchBudgetByBuyerId( buyer.buyerId ) );
+      dispatch( fetchBudgetByBuyerId( buyer.id ) );
     } else {
       dispatch( { type: CHANGE_BUYER_BUDGET_SHEET, payload: null } );
     }
@@ -61,12 +61,6 @@ const BudgetSheet = () => {
     } else {
       dispatch( { type: CHANGE_BUDGET_BY_BUYER, payload: null } );
     }
-  };
-
-  const grandTotal = array => {
-    return array?.reduce( ( acc, curr ) => {
-      return ( acc += curr );
-    }, 0 );
   };
 
   // For Report View

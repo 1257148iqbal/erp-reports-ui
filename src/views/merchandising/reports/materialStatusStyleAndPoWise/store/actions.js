@@ -6,7 +6,7 @@
   Modified: 06-August-2022
 */
 
-import { baseAxios } from '@services';
+import { baseAxios, merchandisingAxios } from '@services';
 import { MATERIAL_STATUS_STYLE_AND_PO_WISE_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
 import {
   FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE,
@@ -18,7 +18,7 @@ import {
 
 //fetch all buyer from style
 export const fetchAllBuyersMaterialStatus = () => async dispatch => {
-  const response = await baseAxios.get( `${STYLES_DETAILS_API.fetch_All_Buyer}` );
+  const response = await merchandisingAxios.get( `${STYLES_DETAILS_API.fetch_buyers}` );
   const allBuyers = response.data.data;
   dispatch( {
     type: FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE,
@@ -27,8 +27,8 @@ export const fetchAllBuyersMaterialStatus = () => async dispatch => {
 };
 
 //fetch season by buyerId
-export const fetchStyleByBuyerMaterialStatus = buyerId => async dispatch => {
-  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_style_by_buyer( buyerId ) );
+export const fetchStyleByBuyerMaterialStatus = queryData => async dispatch => {
+  const response = await merchandisingAxios.post( `${STYLES_DETAILS_API.fetch_style_by_buyer_department_year_season}`, queryData );
   const styles = response.data.data;
   dispatch( {
     type: FETCH_STYLE_MATERIAL_STATUS_STYLE_AND_PO_WISE,
@@ -37,9 +37,9 @@ export const fetchStyleByBuyerMaterialStatus = buyerId => async dispatch => {
 };
 
 //fetch PO By Style ID
-export const fetchPurchaseOrdersByStyleMaterialStatus = styleId => async dispatch => {
-  const response = await baseAxios.get( MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_purchase_orders_by_style_id( styleId ) );
-  const pos = response.data.data;
+export const fetchPurchaseOrdersByStyleMaterialStatus = ( buyerId, styleId ) => async dispatch => {
+  const response = await merchandisingAxios.get( MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_purchase_orders_by_buyer_style_id( buyerId, styleId ) );
+  const pos = response.data;
   dispatch( {
     type: FETCH_PURCHASE_ORDER_BY_STYLE_ID_MATERIAL_STATUS,
     payload: { pos, isPosLoading: !!pos?.length }
