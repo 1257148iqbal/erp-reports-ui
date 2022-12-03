@@ -43,7 +43,6 @@ export const fetchYearByDepartment = buyerDepartmentId => async dispatch => {
 //fetch season by buyerId, buyerDepartmentId and year
 export const fetchSeasonByBuyerDepartmentAndYear = ( buyerId ) => async dispatch => {
   const response = await merchandisingAxios.get( STYLES_DETAILS_API.fetch_season_by_buyer_department_year( buyerId ) );
-  console.log( response );
   const seasons = response.data;
   dispatch( {
     type: FETCH_SEASON,
