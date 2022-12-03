@@ -22,6 +22,7 @@ import {
 export const fetchAllBuyers = () => async dispatch => {
   const response = await baseAxios.get( `${STYLES_DETAILS_API.fetch_All_Buyer}` );
   const buyers = response.data.data;
+  // const buyers = [];
   dispatch( {
     type: FETCH_BUYER_PRE_COSTING_SHEET,
     payload: { buyers, isBuyerLoading: !!buyers?.length }

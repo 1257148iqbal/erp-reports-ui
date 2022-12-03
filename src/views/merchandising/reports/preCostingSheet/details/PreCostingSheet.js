@@ -61,7 +61,8 @@ const PreCostingSheet = () => {
     isDepartmentLoading,
     isYearLoading,
     isStyleLoading,
-    isCostingLoading
+    isCostingLoading,
+    isBuyerLoading
   } = useSelector( ( { preCostingSheetReducer } ) => preCostingSheetReducer );
   //#endregion
   //#region Effects
@@ -224,7 +225,7 @@ const PreCostingSheet = () => {
                 <Select
                   id="buyer"
                   isSearchable
-                  isLoading={!selectedBuyer}
+                  isLoading={!isBuyerLoading && !selectedBuyer}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}
