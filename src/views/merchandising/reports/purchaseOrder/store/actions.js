@@ -6,13 +6,13 @@
   Modified: 22-August-2022
 */
 
-import { baseAxios } from '@services';
+import { baseAxios, merchandisingAxios } from '@services';
 import { PURCHASE_ORDER_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
 import { FETCH_ALL_PO_BY_SUPPLIER_ORDER, FETCH_BUYER_PURCHASE_ORDER, FETCH_PURCHASE_ORDER, FETCH_STYLE_PURCHASE_ORDER } from './actionType';
 
 //fetch all buyer from style
 export const fetchAllBuyersPurchaseOrder = () => async dispatch => {
-  const response = await baseAxios.get( `${STYLES_DETAILS_API.fetch_All_Buyer}` );
+  const response = await merchandisingAxios.get( `${STYLES_DETAILS_API.fetch_buyers}` );
   const allBuyers = response.data.data;
   dispatch( {
     type: FETCH_BUYER_PURCHASE_ORDER,
@@ -21,8 +21,8 @@ export const fetchAllBuyersPurchaseOrder = () => async dispatch => {
 };
 
 //fetch season by buyerId
-export const fetchStyleByBuyerPurchaseOrder = buyerId => async dispatch => {
-  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_style_by_buyer( buyerId ) );
+export const fetchStyleByBuyerPurchaseOrder = queryData => async dispatch => {
+  const response = await merchandisingAxios.post( `${STYLES_DETAILS_API.fetch_style_by_buyer_department_year_season}`, queryData );
   const styles = response.data.data;
   dispatch( {
     type: FETCH_STYLE_PURCHASE_ORDER,

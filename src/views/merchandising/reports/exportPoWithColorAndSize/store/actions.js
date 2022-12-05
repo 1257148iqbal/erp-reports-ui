@@ -6,7 +6,7 @@
   Modified: 06-August-2022
 */
 
-import { baseAxios } from '@services';
+import { baseAxios, merchandisingAxios } from '@services';
 import { EXPORT_PO_WITH_COLOR_AND_SIZE_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
 import {
   FETCH_BUYER_PO_WITH_COLOR_SIZE,
@@ -18,7 +18,7 @@ import {
 
 //fetch all buyer from style
 export const fetchAllBuyers = () => async dispatch => {
-  const response = await baseAxios.get( `${STYLES_DETAILS_API.fetch_All_Buyer}` );
+  const response = await merchandisingAxios.get( `${STYLES_DETAILS_API.fetch_buyers}` );
   const allBuyers = response.data.data;
   dispatch( {
     type: FETCH_BUYER_PO_WITH_COLOR_SIZE,
@@ -28,7 +28,7 @@ export const fetchAllBuyers = () => async dispatch => {
 
 //fetch department by buyer
 export const fetchDepartmentByBuyer = buyerIds => async dispatch => {
-  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_department_by_buyer( buyerIds ) );
+  const response = await baseAxios.get( STYLES_DETAILS_API.fetch_department_by_buyerIds( buyerIds ) );
   const departments = response.data.data;
   dispatch( {
     type: FETCH_DEPARTMENT_PO_WITH_COLOR_SIZE,
@@ -37,8 +37,8 @@ export const fetchDepartmentByBuyer = buyerIds => async dispatch => {
 };
 
 //fetch season by buyerId, buyerDepartmentId
-export const fetchSeasonByBuyerAndDepartment = ( buyerIds, departmentsIds ) => async dispatch => {
-  const response = await baseAxios.get( EXPORT_PO_WITH_COLOR_AND_SIZE_API.fetch_season_by_buyer_department( buyerIds, departmentsIds ) );
+export const fetchSeasonByBuyerAndDepartment = ( buyerIds ) => async dispatch => {
+  const response = await baseAxios.get( EXPORT_PO_WITH_COLOR_AND_SIZE_API.fetch_season_by_buyer_Ids( buyerIds ) );
   const seasons = response.data.data;
   dispatch( {
     type: FETCH_SEASON_PO_WITH_COLOR_SIZE,

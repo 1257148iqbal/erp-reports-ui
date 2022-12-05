@@ -44,7 +44,7 @@ export const purchaseOrderStyleAndItemWiseReducer = ( state = initialState, acti
     }
 
     case FETCH_BUYER_PURCHASE_ORDER_STYLE_AND_ITEM_WISE: {
-      const buyerDDL = mapArrayToDropdown( payload, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, buyers: buyerDDL };
     }
 

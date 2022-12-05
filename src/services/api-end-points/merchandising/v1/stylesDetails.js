@@ -15,6 +15,7 @@ export const STYLES_DETAILS_API = {
   fetch_season_by_buyer_department_year: ( buyerId ) => `/api/merchandising/buyers/${buyerId}/seasons`,
   fetch_style_by_buyer_department_year_season: `/api/merchandising/styles/grid`,
   fetch_styleDetails_by_style: styleId => `/api/reports/StyleDetails/GetStyleDetails/Style/${styleId}`,
+  fetch_department_by_buyerIds: buyerIds => `/api/reports/StyleDetails/GetDepartment/Buyer/${buyerIds}`,
 
   // For RDLC Report
   fetch_styleDetails_by_styleId_rdlc: styleId => `Reports/Merchandising/StyleDetails/${styleId}/Style`

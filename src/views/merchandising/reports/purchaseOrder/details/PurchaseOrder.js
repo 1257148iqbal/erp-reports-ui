@@ -32,6 +32,7 @@ const PurchaseOrder = () => {
   const { pos, poDDL, selectedPo, loading, buyers, selectedBuyer, styles, selectedStyle, isStyleLoading, isPoLoading } = useSelector( ( { purchaseOrderReducer } ) => purchaseOrderReducer );
   //#endregion
 
+
   //#region Effects
   useEffect( () => {
     dispatch( fetchAllBuyersPurchaseOrder() );
@@ -53,12 +54,16 @@ const PurchaseOrder = () => {
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE_PURCHASE_ORDER, payload: buyer } );
-      dispatch( fetchStyleByBuyerPurchaseOrder( buyer.buyerId ) );
+      const filteredData = [
+        {
+          column: "buyerId",
+          value: buyer?.id
+        }
+      ];
+      dispatch( fetchStyleByBuyerPurchaseOrder( filteredData ) );
     } else {
       dispatch( { type: BUYER_CHANGE_PURCHASE_ORDER, payload: null } );
     }
-
-
   };
 
   //For Style Change
@@ -78,10 +83,10 @@ const PurchaseOrder = () => {
   // Search Supplier PO
   const onSearchSupplierPO = useCallback(
     searchKey => {
-      if ( selectedStyle?.length && searchKey?.length ) {
+      if ( selectedStyle?.length && searchKey?.length > 0 ) {
         const styleIds = selectedStyle?.map( item => item.value ).toString();
         dispatch( debounce( fetchAllPOByStyleId( styleIds, searchKey ), 500 ) );
-      } else {
+      } else if ( searchKey?.length > 0 ) {
         dispatch( debounce( fetchAllPOByStyleId( null, searchKey ), 500 ) );
       }
     },
@@ -203,12 +208,13 @@ const PurchaseOrder = () => {
                 <Select
                   id="buyer"
                   isSearchable
-                  isLoading={isPoLoading && !selectedPo}
+                  isLoading={!isPoLoading && !poDDL?.length}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}
                   options={poDDL}
                   value={selectedPo}
+                  isDisabled={selectedBuyer && !selectedStyle?.length}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onPOChange}

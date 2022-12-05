@@ -46,7 +46,7 @@ export const exprotPoWithColorAndSizeReducer = ( state = initialState, action ) 
     }
 
     case FETCH_BUYER_PO_WITH_COLOR_SIZE: {
-      const buyerDDL = mapArrayToDropdown( payload, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, buyers: buyerDDL };
     }
 
@@ -66,7 +66,7 @@ export const exprotPoWithColorAndSizeReducer = ( state = initialState, action ) 
     }
 
     case FETCH_DEPARTMENT_PO_WITH_COLOR_SIZE: {
-      const departmentDDL = mapArrayToDropdown( payload, 'buyerDepartment', 'buyerDepartmentId' );
+      const departmentDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, departments: departmentDDL };
     }
 
@@ -84,7 +84,7 @@ export const exprotPoWithColorAndSizeReducer = ( state = initialState, action ) 
     }
 
     case FETCH_SEASON_PO_WITH_COLOR_SIZE: {
-      const yearDDL = mapArrayToDropdown( payload, 'season', 'season' );
+      const yearDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, seasons: yearDDL };
     }
 

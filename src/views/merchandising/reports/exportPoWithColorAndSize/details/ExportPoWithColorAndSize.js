@@ -84,7 +84,7 @@ const ExportPoWithColorAndSize = () => {
 
   //For Buyer Chnage
   const onBuyerChange = buyer => {
-    const buyerIds = buyer?.map( b => b.buyerId ).toString();
+    const buyerIds = buyer?.map( b => b.id ).toString();
     if ( buyer?.length ) {
       dispatch( { type: BUYER_CHANGE_PO_WITH_COLOR_SIZE, payload: buyer } );
       setFromDate( null );
@@ -98,12 +98,12 @@ const ExportPoWithColorAndSize = () => {
   //For Department Change
   const onDepartmentChange = department => {
     if ( department?.length ) {
-      const buyerIds = selectedBuyer?.map( b => b.buyerId ).toString();
-      const departmentsIds = department?.map( b => b.value ).toString();
+      const buyerIds = selectedBuyer?.map( b => b.id ).toString();
+      // const departmentsIds = department?.map( b => b.value ).toString();
       dispatch( { type: DEPARTMENT_CHANGE_PO_WITH_COLOR_SIZE, payload: department } );
       setFromDate( null );
       setToDate( null );
-      dispatch( fetchSeasonByBuyerAndDepartment( buyerIds, departmentsIds ) );
+      dispatch( fetchSeasonByBuyerAndDepartment( buyerIds ) );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE_PO_WITH_COLOR_SIZE, payload: null } );
     }
@@ -112,9 +112,9 @@ const ExportPoWithColorAndSize = () => {
   //For Season Change
   const onSeasonChange = season => {
     if ( season?.length ) {
-      const buyerIds = selectedBuyer?.map( b => b.buyerId ).toString();
-      const departmentsIds = selectedDepartment?.map( b => b.buyerDepartmentId ).toString();
-      const seasons = season?.map( b => b.season ).toString();
+      const buyerIds = selectedBuyer?.map( b => b.id ).toString();
+      const departmentsIds = selectedDepartment?.map( b => b.id ).toString();
+      const seasons = season?.map( b => b.id ).toString();
       dispatch( { type: SEASON_CHANGE_PO_WITH_COLOR_SIZE, payload: season } );
       setFromDate( null );
       setToDate( null );

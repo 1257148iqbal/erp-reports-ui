@@ -65,7 +65,14 @@ const PurchaseOrderStyleAndItemWise = () => {
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE_PURCHASE_ORDER_STYLE_AND_ITEM_WISE, payload: buyer } );
-      dispatch( fetchStyleByBuyerPurchaseOrderStyleAndItemWise( buyer.buyerId ) );
+
+      const filteredData = [
+        {
+          column: "buyerId",
+          value: buyer?.id
+        }
+      ];
+      dispatch( fetchStyleByBuyerPurchaseOrderStyleAndItemWise( filteredData ) );
     } else {
       dispatch( { type: BUYER_CHANGE_PURCHASE_ORDER_STYLE_AND_ITEM_WISE, payload: null } );
     }
@@ -87,7 +94,7 @@ const PurchaseOrderStyleAndItemWise = () => {
       if ( selectedStyle?.length && searchKey?.length ) {
         const styleIds = selectedStyle?.map( item => item.value ).toString();
         dispatch( debounce( fetchAllPosStyleAndItemWiseByStyleId( styleIds, searchKey ), 500 ) );
-      } else {
+      } else if ( searchKey?.length > 0 ) {
         dispatch( debounce( fetchAllPosStyleAndItemWiseByStyleId( null, searchKey ), 500 ) );
       }
     },
@@ -242,6 +249,7 @@ const PurchaseOrderStyleAndItemWise = () => {
                   theme={selectThemeColors}
                   options={poDDL}
                   value={selectedPo}
+                  isDisabled={selectedBuyer && !selectedStyle?.length}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onPOChange}

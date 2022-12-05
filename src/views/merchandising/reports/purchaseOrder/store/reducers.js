@@ -33,7 +33,7 @@ export const purchaseOrderReducer = ( state = initialState, action ) => {
 
 
     case FETCH_BUYER_PURCHASE_ORDER: {
-      const buyerDDL = mapArrayToDropdown( payload, 'buyerName', 'buyerId' );
+      const buyerDDL = mapArrayToDropdown( payload, 'name', 'id' );
       return { ...state, buyers: buyerDDL };
     }
 
