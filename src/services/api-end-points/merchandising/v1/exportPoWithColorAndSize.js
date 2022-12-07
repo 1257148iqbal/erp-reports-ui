@@ -13,5 +13,5 @@ export const EXPORT_PO_WITH_COLOR_AND_SIZE_API = {
   fetch_export_po_with_color_size_by_style: ( styleIds, fromDate, toDate ) => `/api/reports/ExportPoWithColorAndSizes/GetPoWithcolorAndSize/Style/${styleIds}/FromDate/${fromDate}/ToDate/${toDate}`,
 
   //For RDLC Report
-  fetch_buyer_po_with_color_size_by_style_rdlc: ( styleIds, fromDate, toDate ) => `Reports/Merchandising/Styles/${styleIds}/FromDate/${fromDate}/ToDate/${toDate}/BuyerPOWithColorSizes`
+  fetch_buyer_po_with_color_size_by_style_rdlc: ( authUserId, styleIds, fromDate, toDate ) => `Reports/Merchandising/${authUserId}/Styles/${styleIds}/FromDate/${fromDate}/ToDate/${toDate}/BuyerPOWithColorSizes`
 };

@@ -18,5 +18,5 @@ export const STYLES_DETAILS_API = {
   fetch_department_by_buyerIds: buyerIds => `/api/reports/StyleDetails/GetDepartment/Buyer/${buyerIds}`,
 
   // For RDLC Report
-  fetch_styleDetails_by_styleId_rdlc: styleId => `Reports/Merchandising/StyleDetails/${styleId}/Style`
+  fetch_styleDetails_by_styleId_rdlc: ( authUserId, styleId ) => `Reports/Merchandising/${authUserId}/${styleId}/StyleDetails`
 };

@@ -30,6 +30,7 @@ const PurchaseOrder = () => {
   // const history = useHistory();
   const dispatch = useDispatch();
   const { pos, poDDL, selectedPo, loading, buyers, selectedBuyer, styles, selectedStyle, isStyleLoading, isPoLoading } = useSelector( ( { purchaseOrderReducer } ) => purchaseOrderReducer );
+  const { authenticateUser } = useSelector( ( { auth } ) => auth );
   //#endregion
 
 
@@ -107,7 +108,7 @@ const PurchaseOrder = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_API.fetch_po_by_supplier_orders_id_rdlc( selectedPo.id )}`;
+    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_API.fetch_po_by_supplier_orders_id_rdlc( authenticateUser.id, selectedPo.id )}`;
     return window.open( url, '_blank' );
   };
 

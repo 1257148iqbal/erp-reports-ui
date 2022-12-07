@@ -10,5 +10,5 @@ export const PI_STATEMENT_API = {
   fetch_all_supplier_pi: `/api/reports/IPIStatements/GetAllSupplierPI`,
   fetch_supplier_pi_details_by_sp_id: id => `/api/reports/IPIStatements/GetSupplierPIDetailsBySPIID/SupplierOrder/${id}`,
   //For RDLC Report
-  fetch_supplier_pi_details_by_sp_id_rdlc: id => `Reports/Merchandising/${id}/PIStatement`
+  fetch_supplier_pi_details_by_sp_id_rdlc: ( authUserId, id ) => `Reports/Merchandising/${authUserId}/${id}/PIStatement`
 };

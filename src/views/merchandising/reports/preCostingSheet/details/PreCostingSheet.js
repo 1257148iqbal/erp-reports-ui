@@ -62,6 +62,8 @@ const PreCostingSheet = () => {
     isCostingLoading,
     isBuyerLoading
   } = useSelector( ( { preCostingSheetReducer } ) => preCostingSheetReducer );
+  const { authenticateUser } = useSelector( ( { auth } ) => auth );
+
   //#endregion
 
   //#region States
@@ -211,7 +213,7 @@ const PreCostingSheet = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PRE_COSTING_SHEET_API.fetch_pre_costing_sheet_by_costingId_rdlc( selectedCosting.id )}`;
+    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PRE_COSTING_SHEET_API.fetch_pre_costing_sheet_by_costingId_rdlc( authenticateUser.id, selectedCosting.id )}`;
     return window.open( url, '_blank' );
   };
 

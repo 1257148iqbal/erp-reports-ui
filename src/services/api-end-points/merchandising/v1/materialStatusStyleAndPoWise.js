@@ -12,5 +12,5 @@ export const MATERIAL_STATUS_STYLE_AND_PO_WISE_API = {
   fetch_material_status_style_po_item_details: ( styleId, itemCatetoryId ) => `/api/reports/MaterialStatus/GetMaterialStatus/Style/${styleId}/ItemCategory/${itemCatetoryId}`,
 
   // For RDLC Report
-  fetch_material_status_style_po_wise_rdlc: ( styleId, orderId ) => `Reports/Merchandising/Style/${styleId}/PO/${orderId}/MaterialStatusStyleAndPOWise`
+  fetch_material_status_style_po_wise_rdlc: ( authUserId, styleId, orderId ) => `Reports/Merchandising/${authUserId}/Style/${styleId}/PO/${orderId}/MaterialStatusStyleAndPOWise`
 };

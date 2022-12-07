@@ -30,7 +30,7 @@ const BudgetSheet = () => {
   const { budgetSheet, buyers, selectedBuyer, budgets, selectedBudget, isBudgetLoading, isBudgetSheetLoading, loading } = useSelector(
     ( { budgetSheetReducer } ) => budgetSheetReducer
   );
-
+  const { authenticateUser } = useSelector( ( { auth } ) => auth );
   //#endregion
 
   //#region Effects
@@ -110,7 +110,7 @@ const BudgetSheet = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${BUDGET_SHEET_API.fetch_budget_sheet_by_Id_rdlc( selectedBudget.id )}`;
+    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${BUDGET_SHEET_API.fetch_budget_sheet_by_Id_rdlc( authenticateUser.id, selectedBudget.id )}`;
     return window.open( url, '_blank' );
   };
 

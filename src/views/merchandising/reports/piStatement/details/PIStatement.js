@@ -29,6 +29,7 @@ const PIStatement = () => {
   // const history = useHistory();
   const dispatch = useDispatch();
   const { ipiStatement, poDDL, selectedPo, supplierPIDDL, selectedSupplierPI, loading } = useSelector( ( { piStatementReducer } ) => piStatementReducer );
+  const { authenticateUser } = useSelector( ( { auth } ) => auth );
   //#endregion
 
   //#region state
@@ -93,7 +94,7 @@ const PIStatement = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PI_STATEMENT_API.fetch_supplier_pi_details_by_sp_id_rdlc( selectedSupplierPI.value )}`;
+    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PI_STATEMENT_API.fetch_supplier_pi_details_by_sp_id_rdlc( authenticateUser.id, selectedSupplierPI.value )}`;
     return window.open( url, '_blank' );
   };
 

@@ -53,6 +53,8 @@ const MaterialStatusStyleAndPoWise = () => {
     materailStatusStyleAndPoWise,
     isLoadingMaterialStatus
   } = useSelector( ( { materialStatusStyleAndPOWiseReducer } ) => materialStatusStyleAndPOWiseReducer );
+  const { authenticateUser } = useSelector( ( { auth } ) => auth );
+
   //#endregion
 
   //#region Effects
@@ -129,10 +131,10 @@ const MaterialStatusStyleAndPoWise = () => {
     const orderIds = selectedPos?.map( oi => oi.orderId ).toString();
     let url = "";
     if ( selectedPos.length ) {
-      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( selectedStyle.id, orderIds )}`;
+      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( authenticateUser.id, selectedStyle.id, orderIds )}`;
     } else {
       const poIds = pos?.map( oi => oi.orderId ).toString();
-      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( selectedStyle.id, poIds )}`;
+      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_wise_rdlc( authenticateUser.id, selectedStyle.id, poIds )}`;
     }
     return window.open( url, '_blank' );
   };
