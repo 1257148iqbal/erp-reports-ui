@@ -158,7 +158,7 @@ const StyleDetails = () => {
 
   // For Report Print
   const onReportPrint = () => {
-    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${STYLES_DETAILS_API.fetch_styleDetails_by_styleId_rdlc( authenticateUser.id, selectedStyle.id )}`;
+    const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${STYLES_DETAILS_API.fetch_styleDetails_by_styleId_rdlc( authenticateUser?.id, selectedStyle.id )}`;
     return window.open( url, '_blank' );
   };
 

@@ -233,7 +233,7 @@ const ExportPoWithColorAndSize = () => {
         notify( 'warning', 'Please Select Correct Date range' );
       } else {
         const styleIds = selectedStyle?.map( b => b.id ).toString();
-        const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${EXPORT_PO_WITH_COLOR_AND_SIZE_API.fetch_buyer_po_with_color_size_by_style_rdlc( authenticateUser.id, styleIds, serverDate( fromDate ), serverDate( toDate ) )}`;
+        const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${EXPORT_PO_WITH_COLOR_AND_SIZE_API.fetch_buyer_po_with_color_size_by_style_rdlc( authenticateUser?.id, styleIds, serverDate( fromDate ), serverDate( toDate ) )}`;
         return window.open( url, '_blank' );
       }
     }
