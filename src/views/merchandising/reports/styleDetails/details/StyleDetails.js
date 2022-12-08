@@ -63,7 +63,6 @@ const StyleDetails = () => {
 
   //#region Effects
   useEffect( () => {
-    console.log( 'in effect' );
     dispatch( fetchAllBuyers() );
   }, [dispatch] );
 

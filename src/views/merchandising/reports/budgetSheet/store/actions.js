@@ -33,7 +33,6 @@ export const fetchBudgetByBuyerId = buyerId => async dispatch => {
 //Get Data by Query
 export const fetchBudgetSheet = budgetId => async dispatch => {
   const response = await baseAxios.get( `${BUDGET_SHEET_API.fetch_budget_sheet_by_Id( budgetId )}` );
-  console.log( response );
   const budgetSheet = response.data.data;
   dispatch( {
     type: FETCH_BUDGET_SHEET,

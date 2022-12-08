@@ -89,7 +89,7 @@ export const purchaseOrderStyleAndItemWiseReducer = ( state = initialState, acti
     }
 
     case STYLE_CHANGE_PO_SO_STYLE_AND_ITEM_WISE: {
-      return { ...state, selectedPoAndStyle: payload, pos: {}, loading: false };
+      return { ...state, selectedPoAndStyle: payload, pos: {}, loading: false, isPoLoading: true };
     }
 
     case FETCH_PURCHASE_ORDER_STYLE_AND_PO_WISE: {

@@ -139,7 +139,6 @@ const MaterialStatusStyleAndPoWise = () => {
     return window.open( url, '_blank' );
   };
 
-  console.log( pos );
 
   //#endregion
 

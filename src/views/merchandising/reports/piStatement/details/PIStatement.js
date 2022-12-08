@@ -68,7 +68,7 @@ const PIStatement = () => {
     searchKey => {
       if ( searchKey?.length ) {
         dispatch( debounce( fetchAllSupplierPI( null, searchKey ), 500 ) );
-      } else {
+      } else if ( selectedPo?.length && searchKey?.length > 0 ) {
         dispatch( debounce( fetchAllSupplierPI( selectedPo?.id ), 500 ) );
       }
     },

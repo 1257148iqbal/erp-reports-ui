@@ -313,14 +313,14 @@ const PurchaseOrder = () => {
                             Style
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
-                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.styleList?.map( i => <ul key={uuid()} className='pl-1 ml-1'><li>{i.styleNumber}</li></ul> ) )]}</div>
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.styleList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.styleNumber && <li>{i.styleNumber}</li>}</ul> ) )]}</div>
                         </div>
                         <div className="custom-form-main">
                           <Label className="custom-form-label " for="exportPo">
                             Buyer PO
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
-                          <div className="d-flex flex-wrap">{[...new Set( pos?.buyerPoList?.map( i => <ul key={uuid()} className='pl-1 ml-1'><li>{i.buyerPONumber}</li></ul> ) )]}</div>
+                          <div className="d-flex flex-wrap">{[...new Set( pos?.buyerPoList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.buyerPONumber && <li>{i.buyerPONumber}</li>}</ul> ) )]}</div>
                         </div>
                       </Row>
                     </Col>

@@ -134,6 +134,9 @@ const PurchaseOrderStyleAndItemWise = () => {
   const onClear = () => {
     dispatch( { type: PURCHASE_ORDER_CHANGE_PO_SO_STYLE_AND_ITEM_WISE, payload: null } );
     dispatch( { type: STYLE_CHANGE_PO_SO_STYLE_AND_ITEM_WISE, payload: null } );
+    dispatch( { type: BUYER_CHANGE_PURCHASE_ORDER_STYLE_AND_ITEM_WISE, payload: null } );
+    dispatch( { type: STYLE_CHANGE_PURCHASE_ORDER_STYLE_AND_ITEM_WISE, payload: null } );
+
   };
 
   // For Report Print
@@ -244,7 +247,7 @@ const PurchaseOrderStyleAndItemWise = () => {
                 <Select
                   id="orderNo"
                   isSearchable
-                  isLoading={!selectedPo}
+                  isLoading={!isPoLoading && !poDDL?.length}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}
@@ -365,22 +368,29 @@ const PurchaseOrderStyleAndItemWise = () => {
                           <Label className="custom-form-colons "> : </Label>
                           <div className="custom-form-group ">{pos?.buyerName}</div>
                         </div>
-                        <div className="custom-form-main">
+                        {/* <div className="custom-form-main">
                           <Label className="custom-form-label " for="style">
                             Style
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
                           <div className="custom-form-group ">{[...new Set( pos?.styleList?.map( i => `${i.styleNumber}, ` ) )]}</div>
+                        </div> */}
+                        <div className="custom-form-main">
+                          <Label className="custom-form-label " for="style">
+                            Style
+                          </Label>
+                          <Label className="custom-form-colons "> : </Label>
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.styleList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.styleNumber && <li>{i.styleNumber}</li>}</ul> ) )]}</div>
                         </div>
+
+
                         {selectedPoAndStyle.value === 'Style Wise' ? (
                           <div className="custom-form-main">
                             <Label className="custom-form-label " for="exportPo">
                               Export PO
                             </Label>
                             <Label className="custom-form-colons "> : </Label>
-                            <div className="custom-form-group ">
-                              {[...new Set( pos?.styleList?.map( sl => sl.itemList?.map( i => `${i.buyerPONumber}, ` ) ).flat( 2 ) )]}
-                            </div>
+                            <div className="d-flex flex-wrap">{[...new Set( pos?.styleList?.map( sl => sl.itemList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.buyerPONumber && <li>{i.buyerPONumber}</li>}</ul> ) ).flat( 2 ) )]}</div>
                           </div>
                         ) : (
                           <div className="custom-form-main">
@@ -388,9 +398,7 @@ const PurchaseOrderStyleAndItemWise = () => {
                               Export PO
                             </Label>
                             <Label className="custom-form-colons "> : </Label>
-                            <div className="custom-form-group ">
-                              {[...new Set( pos?.styleList?.map( sl => sl.poList?.map( i => `${i.buyerPONumber}, ` ) ).flat( 2 ) )]}
-                            </div>
+                            <div className="d-flex flex-wrap">{[...new Set( pos?.styleList?.map( sl => sl.poList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.buyerPONumber && <li>{i.buyerPONumber}</li>}</ul> ) ).flat( 2 ) )]}</div>
                           </div>
                         )}
                       </Row>
