@@ -140,9 +140,9 @@ const PurchaseOrderStyleAndItemWise = () => {
   const onReportPrint = () => {
     let url = "";
     if ( selectedPoAndStyle?.label === 'Style Wise' ) {
-      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_by_so_id_rdlc( authenticateUser.id, selectedPo.id )}`;
+      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_by_so_id_rdlc( authenticateUser?.id, selectedPo.id )}`;
     } else {
-      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_and_po_wise_by_so_id_rdlc( authenticateUser.id, selectedPo.id )}`;
+      url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_and_po_wise_by_so_id_rdlc( authenticateUser?.id, selectedPo.id )}`;
     }
     return window.open( url, '_blank' );
   };
