@@ -67,23 +67,10 @@ const ExportPoWithColorAndSize = () => {
   useEffect( () => {
     dispatch( fetchAllBuyers() );
   }, [dispatch] );
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (selectedStyle && toDate && loading && !isPoLoading && !exportPoWithColorAndSizes.styleNo) {
-  //       notify('warning', 'Data Not Found');
-  //     }
-  //   }, 3000);
-  // }, [exportPoWithColorAndSizes?.styleNo, isPoLoading, loading, toDate]);
-
   //#endregion
 
 
   //#region Evets
-  // function hanldePrint() {
-  //   notify('warning', 'There have no data');
-  // }
-
   //For Buyer Chnage
   const onBuyerChange = buyer => {
     const buyerIds = buyer?.map( b => b.id ).toString();

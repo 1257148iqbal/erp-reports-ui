@@ -73,7 +73,7 @@ export const fetchStyleByBuyerDepartmentYearAndSeason = ( queryData ) => async d
 //fetch costing by style
 export const fetchCostingByStyle = styleId => async dispatch => {
   const response = await merchandisingAxios.get( PRE_COSTING_SHEET_API.fetch_costing_by_style( styleId ) );
-  const costings = response.data.data;
+  const costings = response.data;
   dispatch( {
     type: FETCH_COSTING_BY_STYLE,
     payload: { costings, isCostingLoading: !!costings?.length }
