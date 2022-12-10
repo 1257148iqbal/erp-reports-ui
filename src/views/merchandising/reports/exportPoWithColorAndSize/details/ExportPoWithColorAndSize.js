@@ -382,7 +382,7 @@ const ExportPoWithColorAndSize = () => {
 
                 {/* View dropdown start */}
                 <FormGroup tag={Col} xs={2}>
-                  <Button size="sm" color="primary" className="mt-2" onClick={onReportView} disabled={!toDate === null && !selectedStyle && !fromDate}>
+                  <Button size="sm" color="primary" className="mt-2" onClick={onReportView} disabled={!toDate || !fromDate || !selectedStyle}>
                     View
                   </Button>
                 </FormGroup>
@@ -392,7 +392,7 @@ const ExportPoWithColorAndSize = () => {
 
               {/* Print Report start */}
               <FormGroup tag={Col} xs={12} sm={3} md={2} lg={1} xl={1}>
-                <Button size="sm" color="warning" className="mt-2" onClick={onReportPrint} disabled={!toDate === null && !selectedStyle && !fromDate}>
+                <Button size="sm" color="warning" className="mt-2" onClick={onReportPrint} disabled={!toDate || !fromDate || !selectedStyle}>
                   Report
                 </Button>
               </FormGroup>
