@@ -36,7 +36,6 @@ const PurchaseOrder = () => {
 
   //#region Effects
   useEffect( () => {
-    dispatch( fetchAllBuyersPurchaseOrder() );
     if ( selectedStyle?.length ) {
       const styleIds = selectedStyle?.map( item => item.value ).toString();
       dispatch( fetchAllPOByStyleId( styleIds ) );
@@ -174,6 +173,7 @@ const PurchaseOrder = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyersPurchaseOrder() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}

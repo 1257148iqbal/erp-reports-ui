@@ -65,7 +65,7 @@ const ExportPoWithColorAndSize = () => {
 
   //#region Effects
   useEffect( () => {
-    dispatch( fetchAllBuyers() );
+    // dispatch( fetchAllBuyers() );
   }, [dispatch] );
   //#endregion
 
@@ -286,6 +286,7 @@ const ExportPoWithColorAndSize = () => {
                   options={buyers}
                   value={selectedBuyer}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyers() ); }}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                 />

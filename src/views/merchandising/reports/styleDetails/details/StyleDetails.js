@@ -38,7 +38,6 @@ const StyleDetails = () => {
     selectedBuyer,
     departments,
     selectedDepartment,
-    selectedYear,
     isBuyerLoading,
     seasons,
     selectedSeason,
@@ -62,9 +61,6 @@ const StyleDetails = () => {
 
 
   //#region Effects
-  useEffect( () => {
-    dispatch( fetchAllBuyers() );
-  }, [dispatch] );
 
   useEffect( () => {
     const yearsArray = generatePreviousAndNextYears( 5, 4 );
@@ -78,7 +74,6 @@ const StyleDetails = () => {
   // function hanldePrint() {
   //   notify('warning', 'There have no data');
   // }
-
 
   //For Buyer Chnage
   const onBuyerChange = buyer => {
@@ -218,6 +213,7 @@ const StyleDetails = () => {
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyers() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}

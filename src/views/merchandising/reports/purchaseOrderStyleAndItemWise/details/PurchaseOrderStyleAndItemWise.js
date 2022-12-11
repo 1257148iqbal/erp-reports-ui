@@ -46,7 +46,6 @@ const PurchaseOrderStyleAndItemWise = () => {
 
   //#region Effects
   useEffect( () => {
-    dispatch( fetchAllBuyersPurchaseOrderStyleAndItemWise() );
     if ( selectedStyle?.length ) {
       const styleIds = selectedStyle?.map( item => item.value ).toString();
       dispatch( fetchAllPosStyleAndItemWiseByStyleId( styleIds ) );
@@ -212,6 +211,7 @@ const PurchaseOrderStyleAndItemWise = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyersPurchaseOrderStyleAndItemWise() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}

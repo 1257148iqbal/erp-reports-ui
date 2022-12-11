@@ -38,7 +38,6 @@ const PIStatement = () => {
 
   //#region Effects
   useEffect( () => {
-    dispatch( fetchAllPosPIStatement() );
     if ( !selectedPo?.id ) {
       dispatch( fetchAllSupplierPI() );
     } else {
@@ -160,6 +159,7 @@ const PIStatement = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onPOChange}
+                  onFocus={() => { dispatch( fetchAllPosPIStatement() ); }}
                 />
               </FormGroup>
               {/* Purchase Order No dropdown end */}
