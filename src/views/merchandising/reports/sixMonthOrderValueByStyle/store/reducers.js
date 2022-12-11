@@ -48,6 +48,6 @@ export const sixMonthOrderValueByStyleReducer = ( state = initialState, action )
       return { ...state, orderValueByStyle: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

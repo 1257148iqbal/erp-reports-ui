@@ -28,6 +28,6 @@ export const materialRequirementByStyleReducer = ( state = initialState, action 
       return { ...state, items: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

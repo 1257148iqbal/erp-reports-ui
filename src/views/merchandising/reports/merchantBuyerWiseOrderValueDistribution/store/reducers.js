@@ -14,9 +14,9 @@ const initialState = {
   selectedItem: null
 };
 
-export const merchantBuyerWiseOrderValueDistributionReducer = (state = initialState, action) => {
+export const merchantBuyerWiseOrderValueDistributionReducer = ( state = initialState, action ) => {
   const { type, payload } = action;
-  switch (type) {
+  switch ( type ) {
     case LOADING: {
       return {
         ...state,
@@ -28,6 +28,6 @@ export const merchantBuyerWiseOrderValueDistributionReducer = (state = initialSt
       return { ...state, items: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

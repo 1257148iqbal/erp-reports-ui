@@ -57,6 +57,6 @@ export const piStatementReducer = ( state = initialState, action ) => {
     }
 
     default:
-      return {};
+      return state;
   }
 };

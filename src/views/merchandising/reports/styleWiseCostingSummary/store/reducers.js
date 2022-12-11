@@ -122,6 +122,6 @@ export const styleWiseCostingSummaryReducer = ( state = initialState, action ) =
       return { ...state, costingSummary: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

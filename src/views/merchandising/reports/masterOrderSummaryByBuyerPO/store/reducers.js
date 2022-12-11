@@ -32,6 +32,6 @@ export const masterOrderSummaryByBuyerPOReducer = ( state = initialState, action
       return { ...state, orderSummaryByBuyerPo: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

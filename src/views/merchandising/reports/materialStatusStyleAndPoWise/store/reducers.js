@@ -103,6 +103,6 @@ export const materialStatusStyleAndPOWiseReducer = ( state = initialState, actio
       };
     }
     default:
-      return {};
+      return state;
   }
 };

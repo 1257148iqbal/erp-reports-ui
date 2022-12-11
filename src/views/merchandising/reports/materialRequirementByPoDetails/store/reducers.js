@@ -28,6 +28,6 @@ export const materialRequirementByPoDetailsReducer = ( state = initialState, act
       return { ...state, items: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

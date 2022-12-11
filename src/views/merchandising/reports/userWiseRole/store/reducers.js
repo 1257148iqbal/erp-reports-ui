@@ -15,9 +15,9 @@ const initialState = {
   selectedItem: null
 };
 
-export const userWiseRolesReducer = (state = initialState, action) => {
+export const userWiseRolesReducer = ( state = initialState, action ) => {
   const { type, payload } = action;
-  switch (type) {
+  switch ( type ) {
     case LOADING: {
       return {
         ...state,
@@ -26,23 +26,23 @@ export const userWiseRolesReducer = (state = initialState, action) => {
     }
 
     case FETCH_USER_WISE_ROLES: {
-      const uniquePermissions = [...new Set(payload.permissions.map(p => p.split('.')[1]))];
+      const uniquePermissions = [...new Set( payload.permissions.map( p => p.split( '.' )[1] ) )];
       const permissions = {
         ...payload,
-        permissions: uniquePermissions.map(up => ({
-          moduleNames: _.startCase(up),
-          categoryList: [...new Set(payload.permissions.filter(item => item.split('.')[1] === up).map(x => x.split('.')[2]))].map(cl => ({
-            catetoryName: _.startCase(cl),
+        permissions: uniquePermissions.map( up => ( {
+          moduleNames: _.startCase( up ),
+          categoryList: [...new Set( payload.permissions.filter( item => item.split( '.' )[1] === up ).map( x => x.split( '.' )[2] ) )].map( cl => ( {
+            catetoryName: _.startCase( cl ),
             roles: payload.permissions
-              .filter(p => p.split('.')[1] === up)
-              .filter(c => c.split('.')[2] === cl)
-              .map(item => item.split('.')[3])
-          }))
-        }))
+              .filter( p => p.split( '.' )[1] === up )
+              .filter( c => c.split( '.' )[2] === cl )
+              .map( item => item.split( '.' )[3] )
+          } ) )
+        } ) )
       };
       return { ...state, items: permissions };
     }
     default:
-      return {};
+      return state;
   }
 };

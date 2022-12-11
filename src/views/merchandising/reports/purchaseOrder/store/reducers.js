@@ -77,6 +77,6 @@ export const purchaseOrderReducer = ( state = initialState, action ) => {
       return { ...state, pos: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

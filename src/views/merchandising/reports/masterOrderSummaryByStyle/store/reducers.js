@@ -30,6 +30,6 @@ export const masterOrderSummaryByStyleReducer = ( state = initialState, action )
       return { ...state, orderSummaryByStyle: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

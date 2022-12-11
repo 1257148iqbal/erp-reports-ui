@@ -59,6 +59,6 @@ export const budgetSheetReducer = ( state = initialState, action ) => {
       return { ...state, budgetSheet: payload.budgetSheet };
     }
     default:
-      return {};
+      return state;
   }
 };

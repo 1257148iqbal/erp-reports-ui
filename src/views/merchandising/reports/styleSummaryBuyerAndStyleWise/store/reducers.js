@@ -130,6 +130,6 @@ export const styleSummaryBuyerAndStyleWiseReducer = ( state = initialState, acti
       return { ...state, summaryStyles: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

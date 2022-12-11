@@ -48,6 +48,6 @@ export const sixMonthOrderValueByBuyerReducer = ( state = initialState, action )
       return { ...state, orderValueByBuyers: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

@@ -120,6 +120,6 @@ export const exprotPoWithColorAndSizeReducer = ( state = initialState, action ) 
       return { ...state, exportPoWithColorAndSizes: payload.data, isPoLoading: payload.isPoLoading };
     }
     default:
-      return {};
+      return state;
   }
 };

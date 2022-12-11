@@ -96,6 +96,6 @@ export const purchaseOrderStyleAndItemWiseReducer = ( state = initialState, acti
       return { ...state, pos: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

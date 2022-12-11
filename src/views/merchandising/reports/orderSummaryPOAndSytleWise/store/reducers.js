@@ -125,6 +125,6 @@ export const orderSummaryPOAndSytleWiseReducer = ( state = initialState, action 
       return { ...state, orderSummaryPoStyleWise: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

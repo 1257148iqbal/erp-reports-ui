@@ -28,6 +28,6 @@ export const averageCMValueByStyleCategoryReducer = ( state = initialState, acti
       return { ...state, items: payload };
     }
     default:
-      return {};
+      return state;
   }
 };
