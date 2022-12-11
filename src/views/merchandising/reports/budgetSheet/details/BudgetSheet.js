@@ -12,7 +12,6 @@ import { customSum } from '@utility/commonHelper';
 import { formattedDate } from '@utility/dateHelpers';
 import { selectThemeColors } from '@utility/Utils';
 import classNames from 'classnames';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { Badge, Button, Card, Col, FormGroup, Label, NavItem, Row, Table } from 'reactstrap';
@@ -34,9 +33,9 @@ const BudgetSheet = () => {
   //#endregion
 
   //#region Effects
-  useEffect( () => {
-    dispatch( fetchAllBuyerBudgetSheets() );
-  }, [dispatch] );
+  // useEffect( () => {
+  //   dispatch( fetchAllBuyerBudgetSheets() );
+  // }, [dispatch] );
   //#endregion
 
   //#region Evets
@@ -176,6 +175,7 @@ const BudgetSheet = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyerBudgetSheets() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}

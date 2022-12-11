@@ -73,9 +73,9 @@ const PreCostingSheet = () => {
 
 
   //#region Effects
-  useEffect( () => {
-    dispatch( fetchAllBuyers() );
-  }, [dispatch] );
+  // useEffect( () => {
+  //   dispatch( fetchAllBuyers() );
+  // }, [dispatch] );
 
   useEffect( () => {
     const yearsArray = generatePreviousAndNextYears( 5, 4 );
@@ -250,7 +250,7 @@ const PreCostingSheet = () => {
                 <Select
                   id="buyer"
                   isSearchable
-                  isLoading={!isBuyerLoading && !selectedBuyer}
+                  isLoading={isBuyerLoading && !selectedBuyer}
                   isClearable
                   bsSize="sm"
                   theme={selectThemeColors}
@@ -259,6 +259,7 @@ const PreCostingSheet = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyers() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}
