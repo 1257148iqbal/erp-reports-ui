@@ -85,58 +85,16 @@ const PreCostingSheet = () => {
   //#endregion
 
   //#region Evets
-  // function hanldePrint() {
-  //   notify('warning', 'There have no data');
-  // }
-
   //For Buyer Chnage
   const onBuyerChange = buyer => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE_PRE_COSTING_SHEET, payload: buyer } );
       dispatch( fetchDepartmentByBuyer( buyer.value ) );
-    } else {
-      dispatch( { type: BUYER_CHANGE_PRE_COSTING_SHEET, payload: null } );
-      setYear( null );
-
-    }
-  };
-
-  //For Department Change
-  const onDepartmentChange = department => {
-    if ( department ) {
-      dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: department } );
-      // dispatch( fetchYearByDepartment( department.value ) );
-      setYear( null );
-    } else {
-      dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: null } );
-      setYear( null );
-    }
-  };
-
-  // const onYearChange = year => {
-  //   if ( year ) {
-  //     dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: year } );
-  //     dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.value, selectedDepartment.value, year.value ) );
-  //   } else {
-  //     dispatch( { type: YEAR_CHANGE_PRE_COSTING_SHEET, payload: null } );
-  //   }
-  // };
-
-  //For Year Change
-  const onYearChange = ( date ) => {
-    setYear( date );
-    dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.value ) );
-
-  };
-
-  //For Season Change
-  const onSeasonChange = season => {
-    if ( season ) {
-      dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: season } );
+      dispatch( fetchSeasonByBuyerDepartmentAndYear( buyer.value ) );
       const defaultFilteredArrayValue = [
         {
           column: "buyerId",
-          value: selectedBuyer?.value
+          value: buyer?.value
         },
         {
           column: "departmentId",
@@ -148,15 +106,36 @@ const PreCostingSheet = () => {
         },
         {
           column: "seasonId",
-          value: season?.value
+          value: selectedSeason?.value
         }
       ];
-
       const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
-      dispatch(
-        fetchStyleByBuyerDepartmentYearAndSeason( filteredData )
-      );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
+    } else {
+      dispatch( { type: BUYER_CHANGE_PRE_COSTING_SHEET, payload: null } );
+      setYear( null );
 
+    }
+  };
+
+  //For Department Change
+  const onDepartmentChange = department => {
+    if ( department ) {
+      dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: department } );
+    } else {
+      dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: null } );
+    }
+  };
+
+  //For Year Change
+  const onYearChange = ( date ) => {
+    setYear( date );
+  };
+
+  //For Season Change
+  const onSeasonChange = season => {
+    if ( season ) {
+      dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: season } );
     } else {
       dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: null } );
     }
@@ -323,7 +302,7 @@ const PreCostingSheet = () => {
                   onChange={onYearChange}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedDepartment}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* year dropdown end */}
@@ -345,7 +324,7 @@ const PreCostingSheet = () => {
                   onChange={onSeasonChange}
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
-                  isDisabled={!year}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* season dropdown end */}
@@ -367,7 +346,7 @@ const PreCostingSheet = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onStyleChange}
-                  isDisabled={!selectedSeason}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* style dropdown end */}

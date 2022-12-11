@@ -30,8 +30,6 @@ export const initialState = {
   departments: [],
   selectedDepartment: null,
   isDepartmentLoading: true,
-  years: [],
-  selectedYear: null,
   isYearLoading: true,
   seasons: [],
   isSeasonsLoading: true,
@@ -62,8 +60,6 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
         selectedBuyer: payload,
         selectedDepartment: null,
         departments: [],
-        selectedYear: null,
-        years: [],
         selectedSeason: null,
         seasons: [],
         selectedStyle: null,
@@ -81,12 +77,6 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
       return {
         ...state,
         selectedDepartment: payload,
-        selectedYear: null,
-        years: [],
-        selectedSeason: null,
-        seasons: [],
-        selectedStyle: null,
-        styles: [],
         isYearLoading: true
       };
     }
@@ -114,7 +104,7 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
     }
 
     case SEASON_CHANGE: {
-      return { ...state, selectedSeason: payload, selectedStyle: null, styles: [], isStyleLoading: true };
+      return { ...state, selectedSeason: payload, isStyleLoading: true };
     }
 
     case FETCH_STYLE: {
@@ -135,6 +125,6 @@ export const styleDetailsReducer = ( state = initialState, action ) => {
     }
 
     default:
-      return {};
+      return state;
   }
 };
