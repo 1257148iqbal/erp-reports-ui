@@ -88,12 +88,6 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
       return {
         ...state,
         selectedDepartment: payload,
-        selectedYear: null,
-        years: [],
-        selectedSeason: null,
-        seasons: [],
-        selectedStyle: null,
-        styles: [],
         selectedCosting: null,
         costings: [],
         isYearLoading: true
@@ -109,10 +103,6 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
       return {
         ...state,
         selectedYear: payload,
-        selectedSeason: null,
-        seasons: [],
-        selectedStyle: null,
-        styles: [],
         selectedCosting: null,
         costings: [],
         isSeasonsLoading: true
@@ -128,8 +118,6 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
       return {
         ...state,
         selectedSeason: payload,
-        selectedStyle: null,
-        styles: [],
         selectedCosting: null,
         costings: [],
         isStyleLoading: true
@@ -158,6 +146,6 @@ export const preCostingSheetReducer = ( state = initialState, action ) => {
       return { ...state, preCostingSheets: payload };
     }
     default:
-      return {};
+      return state;
   }
 };

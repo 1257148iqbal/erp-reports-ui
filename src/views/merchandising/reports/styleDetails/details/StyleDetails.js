@@ -85,30 +85,10 @@ const StyleDetails = () => {
     if ( buyer ) {
       dispatch( { type: BUYER_CHANGE, payload: buyer ? buyer : null } );
       dispatch( fetchDepartmentByBuyer( buyer.id ) );
-    } else {
-      dispatch( { type: BUYER_CHANGE, payload: null } );
-    }
-  };
-
-  //For Department Change
-  const onDepartmentChange = department => {
-    if ( department ) {
-      dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
-      setYear( null );
-    } else {
-      dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
-      setYear( null );
-    }
-  };
-
-  //For Season Change
-  const onSeasonChange = season => {
-    if ( season ) {
-      dispatch( { type: SEASON_CHANGE, payload: season } );
       const defaultFilteredArrayValue = [
         {
           column: "buyerId",
-          value: selectedBuyer?.id
+          value: buyer?.id
         },
         {
           column: "departmentId",
@@ -120,14 +100,30 @@ const StyleDetails = () => {
         },
         {
           column: "seasonId",
-          value: season?.id
+          value: selectedSeason?.id
         }
       ];
-
       const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
-      dispatch(
-        fetchStyleByBuyerDepartmentYearAndSeason( filteredData )
-      );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
+      dispatch( fetchSeasonByBuyerDepartmentAndYear( buyer?.id ) );
+    } else {
+      dispatch( { type: BUYER_CHANGE, payload: null } );
+    }
+  };
+
+  //For Department Change
+  const onDepartmentChange = department => {
+    if ( department ) {
+      dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
+    } else {
+      dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
+    }
+  };
+
+  //For Season Change
+  const onSeasonChange = season => {
+    if ( season ) {
+      dispatch( { type: SEASON_CHANGE, payload: season } );
     } else {
       dispatch( { type: SEASON_CHANGE, payload: season } );
     }
@@ -136,8 +132,6 @@ const StyleDetails = () => {
   //For Year Change
   const onYearChange = ( date ) => {
     setYear( date );
-    dispatch( fetchSeasonByBuyerDepartmentAndYear( selectedBuyer.id ) );
-
   };
 
   //For Style Change
@@ -267,7 +261,7 @@ const StyleDetails = () => {
                   onChange={onYearChange}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!selectedDepartment}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* year dropdown end */}
@@ -289,7 +283,7 @@ const StyleDetails = () => {
                   onChange={onSeasonChange}
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
-                  isDisabled={!year}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* season dropdown end */}
@@ -311,7 +305,7 @@ const StyleDetails = () => {
                   classNamePrefix="dropdown"
                   className={classnames( 'erp-dropdown-select' )}
                   onChange={onStyleChange}
-                  isDisabled={!selectedSeason}
+                  isDisabled={!selectedBuyer}
                 />
               </FormGroup>
               {/* style dropdown end */}
