@@ -55,7 +55,7 @@ const StyleSummaryWithPoDetails = () => {
   ];
 
   return (
-    <div className="p-1 mt-3">
+    <div className="p-1 mt-3 custom-report-form">
       <ActionMenu title="Style Summary With Po Details" moreButton={false} breadcrumb={breadcrumb}>
         <NavItem className="mr-1">
           <NavLink tag={Button} size="sm" color="primary" type="submit" onClick={hanldePrint}>
@@ -69,7 +69,7 @@ const StyleSummaryWithPoDetails = () => {
         </NavItem>
       </ActionMenu>
 
-      <Card className="custom-report-form">
+      <Card>
         <Row className="pt-2 pr-3 pl-3 pb-1">
           <FormGroup tag={Col} xs={12} sm={12} md={12} lg={12} xl={12} className="mt-n1 pt-1">
             <Badge color="primary">{`Style Summary With Po Details`}</Badge>

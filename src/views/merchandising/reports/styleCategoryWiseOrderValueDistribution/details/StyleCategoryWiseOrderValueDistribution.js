@@ -57,7 +57,7 @@ const StyleCategoryWiseOrderValueDistribution = () => {
   ];
 
   return (
-    <div className="p-1 mt-3">
+    <div className="p-1 mt-3 custom-report-form">
       <ActionMenu title="Material Requirement By Style" moreButton={false} breadcrumb={breadcrumb}>
         <NavItem className="mr-1">
           <NavLink tag={Button} size="sm" color="primary" type="submit" onClick={hanldePrint}>

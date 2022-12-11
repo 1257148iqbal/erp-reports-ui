@@ -147,7 +147,7 @@ const OrderSummaryPOAndSytleWise = () => {
   ];
 
   return (
-    <div className="p-1 mt-3">
+    <div className="p-1 mt-3 custom-report-form">
       <ActionMenu title="Order Summary PO & Style Wise" moreButton={false} breadcrumb={breadcrumb}>
         <NavItem className="mr-1">
           {/* <NavLink tag={Button} size="sm" color="primary" type="submit" onClick={hanldePrint}>
