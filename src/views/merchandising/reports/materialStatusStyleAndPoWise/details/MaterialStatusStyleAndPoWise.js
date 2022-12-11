@@ -9,7 +9,7 @@ import SpinnerComponent from '@core/components/spinner/Fallback-spinner';
 import '@custom-styles/reporting/reporting-core.scss';
 import { selectThemeColors } from '@utility/Utils';
 import classNames from 'classnames';
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { ChevronRight, ChevronsDown, Loader } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
@@ -58,9 +58,9 @@ const MaterialStatusStyleAndPoWise = () => {
   //#endregion
 
   //#region Effects
-  useEffect( () => {
-    dispatch( fetchAllBuyersMaterialStatus() );
-  }, [dispatch] );
+  // useEffect( () => {
+  //   dispatch( fetchAllBuyersMaterialStatus() );
+  // }, [dispatch] );
   //#endregion
 
   //#region Evets
@@ -202,6 +202,7 @@ const MaterialStatusStyleAndPoWise = () => {
                   classNamePrefix="dropdown"
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
+                  onFocus={() => { dispatch( fetchAllBuyersMaterialStatus() ); }}
                 />
               </FormGroup>
               {/* Buyer dropdown end */}
