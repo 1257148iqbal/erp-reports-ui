@@ -413,13 +413,13 @@ const PreCostingSheet = () => {
                         <Label className="custom-form-colons"> : </Label>
                         <div className="custom-form-group">{preCostingSheets?.styleNo}</div>
                       </div>
-                      <div className="custom-form-main">
+                      {/* <div className="custom-form-main">
                         <Label className="custom-form-label " for="model">
                           Model
                         </Label>
                         <Label className="custom-form-colons "> : </Label>
                         <div className="custom-form-group ">{preCostingSheets?.styleNo}</div>
-                      </div>
+                      </div> */}
                       <div className="custom-form-main">
                         <Label className="custom-form-label " for="buyerName">
                           Buyer Name
