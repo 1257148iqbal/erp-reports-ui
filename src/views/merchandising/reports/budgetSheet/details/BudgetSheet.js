@@ -30,6 +30,7 @@ const BudgetSheet = () => {
     ( { budgetSheetReducer } ) => budgetSheetReducer
   );
   const { authenticateUser } = useSelector( ( { auth } ) => auth );
+  // const [hide, setHide] = useState();
   //#endregion
 
   //#region Effects
@@ -92,7 +93,7 @@ const BudgetSheet = () => {
   };
   // Sum Summary Value
   const sumSummaryValue = () => {
-    const sumValue = customSum( budgetSheet?.summaryList?.map( sl => sl.costingGroupAmount ) );
+    const sumValue = customSum( budgetSheet?.summaryList?.filter( sl => sl.costingGroupName !== 'CM' ).map( sl => sl.costingGroupAmount ) );
     return sumValue + totalFabricAmount() + totalAccosoriesAmount();
   };
 
@@ -112,6 +113,7 @@ const BudgetSheet = () => {
     const url = `${REACT_APP_MERCHANDISING_REPORT_BASE_URL}/${BUDGET_SHEET_API.fetch_budget_sheet_by_Id_rdlc( authenticateUser?.id, selectedBudget.id )}`;
     return window.open( url, '_blank' );
   };
+
 
   //#endregion
 
@@ -163,6 +165,17 @@ const BudgetSheet = () => {
                 <Label className="text-dark font-weight-bold" for="style">
                   Buyers
                 </Label>
+                {/* <div
+                  style={{
+                    display: hide && "none",
+                    position: "absolute",
+                    marginLeft: "10px",
+                    marginTop: "10px",
+                    zIndex: 1
+                  }}
+                >
+                  {selectedBuyer && selectedBuyer.label}
+                </div> */}
                 <Select
                   id="buyer"
                   isSearchable
@@ -176,7 +189,15 @@ const BudgetSheet = () => {
                   className={classNames( 'erp-dropdown-select' )}
                   onChange={onBuyerChange}
                   onFocus={() => { dispatch( fetchAllBuyerBudgetSheets() ); }}
+                // onInputChange={setHide}
+                // components={{
+                //   SingleValue: () => {
+                //     return null;
+                //   }
+                // }}
+
                 />
+
               </FormGroup>
               {/* Buyer dropdown end */}
 
