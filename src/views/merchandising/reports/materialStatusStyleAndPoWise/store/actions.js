@@ -9,9 +9,7 @@
 import { baseAxios, merchandisingAxios } from '@services';
 import { MATERIAL_STATUS_STYLE_AND_PO_WISE_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
 import {
-  FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE,
-  FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_ITEM_DETAILS,
-  FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_WISE,
+  FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE, FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_WISE,
   FETCH_PURCHASE_ORDER_BY_STYLE_ID_MATERIAL_STATUS,
   FETCH_STYLE_MATERIAL_STATUS_STYLE_AND_PO_WISE
 } from './actionType';
@@ -62,20 +60,20 @@ export const fetchMaterialStatusStyleAndPoWise = ( styleId, orderIds ) => async 
 };
 
 
-//Get Data by Query
-export const fetchMaterialStatusStyleAndPoItemDetails = ( styleId, itemCategoryId, index, orderId ) => async dispatch => {
-  let response = {};
-  if ( orderId ) {
-    response = await baseAxios.get( `${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_item_details( styleId, itemCategoryId )}`, { params: { orderId } } );
-  } else {
-    response = await baseAxios.get( `${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_item_details( styleId, itemCategoryId )}` );
-  }
-  const data = response.data.data;
-  dispatch( {
-    type: FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_ITEM_DETAILS,
-    payload: {
-      index,
-      data
-    }
-  } );
-};
+// //Get Data by Query
+// export const fetchMaterialStatusStyleAndPoItemDetails = ( styleId, itemCategoryId, index, orderId ) => async dispatch => {
+//   let response = {};
+//   if ( orderId ) {
+//     response = await baseAxios.get( `${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_item_details( styleId, itemCategoryId )}`, { params: { orderId } } );
+//   } else {
+//     response = await baseAxios.get( `${MATERIAL_STATUS_STYLE_AND_PO_WISE_API.fetch_material_status_style_po_item_details( styleId, itemCategoryId )}` );
+//   }
+//   const data = response.data.data;
+//   dispatch( {
+//     type: FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_ITEM_DETAILS,
+//     payload: {
+//       index,
+//       data
+//     }
+//   } );
+// };

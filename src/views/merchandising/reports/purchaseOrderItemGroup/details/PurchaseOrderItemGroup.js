@@ -435,8 +435,26 @@ const PurchaseOrderItemGroup = () => {
 
                 <Row className="pt-2 pr-3 pl-3 pb-1">
                   <Col xs={12} className="mb-0">
-                    <div className="border p-1" style={{ height: '100px' }}>
+                    <div className="border p-1" style={{ height: '270px' }}>
                       <div className="pb-1">{'Terms & Conditions :'}</div>
+                      <div>
+                        <h4>Must be mentioned in the PI:</h4>
+                        <ul>
+                          <li>Country of origin.</li>
+                          <li>EBIN number (For local supplier).</li>
+                          <li>Gross & Net weight.</li>
+                          <li>HS Code number.</li>
+                          <li>Shipment Date.</li>
+                          <li>Mode of Shipment: By Sea/Air</li>
+                          <li>Port of Destination: Chattogram-By Sea/ Dhaka-By Air</li>
+                          <li>Port of Loading:</li>
+                          <li>Shipping Mark (Applicant name must be mentioned in shipping mark):</li>
+                          <li>Beneficiary’s bank details (Bank Name, Address, AC No. Swift code, AC Name):</li>
+                          <li>Tolerance: 2/3/4/5% (Color wise Quantity + Amount)</li>
+                          <li>Freight Charges (If CFR/CNF Shipment):</li>
+                          <li>Additional shipments will not be accepted.</li>
+                        </ul>
+                      </div>
                     </div>
                   </Col>
                   <Col xs={12} className="mb-0">

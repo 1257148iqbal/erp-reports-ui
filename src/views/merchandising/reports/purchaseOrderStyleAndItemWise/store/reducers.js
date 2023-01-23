@@ -85,7 +85,15 @@ export const purchaseOrderStyleAndItemWiseReducer = ( state = initialState, acti
     }
 
     case FETCH_PURCHASE_ORDER_STYLE_AND_ITEM_WISE: {
-      return { ...state, pos: payload };
+      const uniqueStyle = [... new Set( payload?.poDetailsList?.map( item => item.styleNumber ) )];
+      const updatePayload = {
+        ...payload,
+        poDetails: uniqueStyle.map( style => ( {
+          styleNumber: style,
+          styleWiseDetails: payload?.poDetailsList?.filter( item => item.styleNumber === style )
+        } ) )
+      };
+      return { ...state, pos: updatePayload };
     }
 
     case STYLE_CHANGE_PO_SO_STYLE_AND_ITEM_WISE: {
@@ -93,7 +101,19 @@ export const purchaseOrderStyleAndItemWiseReducer = ( state = initialState, acti
     }
 
     case FETCH_PURCHASE_ORDER_STYLE_AND_PO_WISE: {
-      return { ...state, pos: payload };
+      const uniqueStyle = [... new Set( payload?.poDetailsList?.map( item => item.styleNumber ) )];
+      const uniqueorderNumber = [... new Set( payload?.poDetailsList?.map( item => item.orderNumber ) )];
+      const updatePayload = {
+        ...payload,
+        poDetails: uniqueStyle.map( style => ( {
+          styleNumber: style,
+          orderNumber: uniqueorderNumber.map( order => ( {
+            orderNumber: order,
+            styleWiseDetails: payload?.poDetailsList?.filter( item => item.orderNumber === order && item.styleNumber === style )
+          } ) )
+        } ) )
+      };
+      return { ...state, pos: updatePayload };
     }
     default:
       return {};

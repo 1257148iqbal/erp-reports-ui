@@ -17,15 +17,15 @@ import { Badge, Button, Card, Col, Collapse, FormGroup, Label, NavItem, Row, Tab
 import { v4 as uuid } from 'uuid';
 import ActionMenu from '../../../../../layouts/components/menu/action-menu';
 import { MATERIAL_STATUS_STYLE_AND_PO_WISE_API } from '../../../../../services/api-end-points/merchandising/v1/materialStatusStyleAndPoWise';
+import { customSum } from '../../../../../utility/commonHelper';
 import {
-  fetchAllBuyersMaterialStatus,
-  fetchMaterialStatusStyleAndPoItemDetails,
-  fetchMaterialStatusStyleAndPoWise,
+  fetchAllBuyersMaterialStatus, fetchMaterialStatusStyleAndPoWise,
   fetchPurchaseOrdersByStyleMaterialStatus,
   fetchStyleByBuyerMaterialStatus
 } from '../store/actions';
 import {
   BUYER_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE,
+  FETCH_INDEX_MATERIAL_STATUS_STYLE_AND_PO_WISE,
   LOADING,
   PURCHASE_ORDER_CHANGE_MATERIAL_STATUS,
   STYLE_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE
@@ -54,7 +54,6 @@ const MaterialStatusStyleAndPoWise = () => {
     isLoadingMaterialStatus
   } = useSelector( ( { materialStatusStyleAndPOWiseReducer } ) => materialStatusStyleAndPOWiseReducer );
   const { authenticateUser } = useSelector( ( { auth } ) => auth );
-
   //#endregion
 
   //#region Effects
@@ -64,10 +63,6 @@ const MaterialStatusStyleAndPoWise = () => {
   //#endregion
 
   //#region Evets
-  // function hanldePrint() {
-  //   notify('warning', 'There have no data');
-  // }
-
   //For Buyer Chnage
   const onBuyerChange = buyer => {
     if ( buyer ) {
@@ -105,14 +100,8 @@ const MaterialStatusStyleAndPoWise = () => {
 
   // For Click Item Details
 
-  const onItemDetailsFetch = ( itemCategoryId, index ) => {
-    const orderIds = selectedPos?.map( oi => oi.orderId ).toString();
-    if ( selectedPos ) {
-      dispatch( fetchMaterialStatusStyleAndPoItemDetails( selectedStyle.id, itemCategoryId, index, orderIds ) );
-    } else {
-      dispatch( fetchMaterialStatusStyleAndPoItemDetails( selectedStyle.id, itemCategoryId, index ) );
-    }
-
+  const onItemDetailsFetch = ( index ) => {
+    dispatch( { type: FETCH_INDEX_MATERIAL_STATUS_STYLE_AND_PO_WISE, payload: index } );
   };
 
   // For Report View
@@ -121,7 +110,7 @@ const MaterialStatusStyleAndPoWise = () => {
     if ( selectedPos ) {
       dispatch( fetchMaterialStatusStyleAndPoWise( selectedStyle.id, orderIds ) );
     } else {
-      dispatch( fetchMaterialStatusStyleAndPoWise( selectedStyle.id ) );
+      dispatch( fetchMaterialStatusStyleAndPoWise( selectedStyle?.id ) );
     }
     dispatch( { type: LOADING, payload: true } );
   };
@@ -291,7 +280,7 @@ const MaterialStatusStyleAndPoWise = () => {
                           <th></th>
                           <th style={{ minWidth: '130px' }}>Item Group</th>
                           <th style={{ minWidth: '130px' }}>Required Qty</th>
-                          <th style={{ minWidth: '130px' }}>UOM</th>
+                          {/* <th style={{ minWidth: '130px' }}>UOM</th> */}
                           <th style={{ minWidth: '130px' }}>Booked Qty</th>
                           <th style={{ minWidth: '130px' }}>Balance</th>
                         </tr>
@@ -304,7 +293,7 @@ const MaterialStatusStyleAndPoWise = () => {
                                 <Button
                                   for="collapseId"
                                   tag={Label}
-                                  onClick={() => onItemDetailsFetch( po.itemCategoryId, index )}
+                                  onClick={() => onItemDetailsFetch( index )}
                                   className="btn-sm"
                                   color="flat-primary"
                                 >
@@ -317,11 +306,11 @@ const MaterialStatusStyleAndPoWise = () => {
                                   )}
                                 </Button>
                               </td>
-                              <td className="text-left">{po.groupName}</td>
-                              <td>{po.bomQuantity.toFixed( 4 )}</td>
-                              <td className="text-center">{po.bomUom}</td>
-                              <td>{po.supplierOrderQuantity.toFixed( 4 )}</td>
-                              <td>{po.spidQuantity.toFixed( 4 )}</td>
+                              <td className="text-left">{po.category}</td>
+                              <td>{customSum( po?.itemDetails?.map( item => item?.totalBomQuantity ) ).toFixed( 4 )}</td>
+                              {/* <td className="text-center">{po.bomUom}</td> */}
+                              <td>{customSum( po?.itemDetails?.map( item => item?.totalOrderQuanitty ) ).toFixed( 4 )}</td>
+                              <td>{customSum( po?.itemDetails?.map( item => item?.balance ) ).toFixed( 4 )}</td>
                             </tr>
                             <tr>
                               <td colSpan={10} style={{ padding: '2px 10px !important', backgroundColor: '#fff' }}>
@@ -331,7 +320,7 @@ const MaterialStatusStyleAndPoWise = () => {
                                       <tr className="text-center">
                                         <th>Item Description</th>
                                         <th>Required Qty</th>
-                                        <th>UOM</th>
+                                        {/* <th>UOM</th> */}
                                         <th>Booked Qty</th>
                                         <th>Balance</th>
                                       </tr>
@@ -340,10 +329,10 @@ const MaterialStatusStyleAndPoWise = () => {
                                       {po.itemDetails?.map( item => (
                                         <tr key={uuid()} className="text-right">
                                           <td className="text-left">{item.itemDescription}</td>
-                                          <td>{item.bomQuantity.toFixed( 4 )}</td>
-                                          <td className="text-center">{item.bomUom}</td>
-                                          <td>{item.supplierOrderQuantity.toFixed( 4 )}</td>
-                                          <td>{item.spidQuantity.toFixed( 4 )}</td>
+                                          <td>{item.totalBomQuantity.toFixed( 4 )}</td>
+                                          {/* <td className="text-center">{item.bomUom}</td> */}
+                                          <td>{item.totalOrderQuanitty.toFixed( 4 )}</td>
+                                          <td>{item.balance.toFixed( 4 )}</td>
                                         </tr>
                                       ) )}
                                     </tbody>

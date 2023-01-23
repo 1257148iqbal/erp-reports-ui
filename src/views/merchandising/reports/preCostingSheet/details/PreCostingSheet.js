@@ -122,6 +122,26 @@ const PreCostingSheet = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: department } );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.value
+        },
+        {
+          column: "departmentId",
+          value: department?.value
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: selectedSeason?.value
+        }
+      ];
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE_PRE_COSTING_SHEET, payload: null } );
     }
@@ -130,12 +150,52 @@ const PreCostingSheet = () => {
   //For Year Change
   const onYearChange = ( date ) => {
     setYear( date );
+    const defaultFilteredArrayValue = [
+      {
+        column: "buyerId",
+        value: selectedBuyer?.value
+      },
+      {
+        column: "departmentId",
+        value: selectedDepartment?.value
+      },
+      {
+        column: "year",
+        value: date?.value.toString()
+      },
+      {
+        column: "seasonId",
+        value: selectedSeason?.value
+      }
+    ];
+    const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+    dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
   };
 
   //For Season Change
   const onSeasonChange = season => {
     if ( season ) {
       dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: season } );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.value
+        },
+        {
+          column: "departmentId",
+          value: selectedDepartment?.value
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: season?.value
+        }
+      ];
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
     } else {
       dispatch( { type: SEASON_CHANGE_PRE_COSTING_SHEET, payload: null } );
     }

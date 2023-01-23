@@ -110,6 +110,26 @@ const StyleDetails = () => {
   const onDepartmentChange = department => {
     if ( department ) {
       dispatch( { type: DEPARTMENT_CHANGE, payload: department } );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.id
+        },
+        {
+          column: "departmentId",
+          value: department?.id
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: selectedSeason?.id
+        }
+      ];
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
     } else {
       dispatch( { type: DEPARTMENT_CHANGE, payload: null } );
     }
@@ -119,6 +139,26 @@ const StyleDetails = () => {
   const onSeasonChange = season => {
     if ( season ) {
       dispatch( { type: SEASON_CHANGE, payload: season } );
+      const defaultFilteredArrayValue = [
+        {
+          column: "buyerId",
+          value: selectedBuyer?.id
+        },
+        {
+          column: "departmentId",
+          value: selectedDepartment?.id
+        },
+        {
+          column: "year",
+          value: year?.value.toString()
+        },
+        {
+          column: "seasonId",
+          value: season?.id
+        }
+      ];
+      const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+      dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
     } else {
       dispatch( { type: SEASON_CHANGE, payload: season } );
     }
@@ -126,6 +166,26 @@ const StyleDetails = () => {
 
   //For Year Change
   const onYearChange = ( date ) => {
+    const defaultFilteredArrayValue = [
+      {
+        column: "buyerId",
+        value: selectedBuyer?.id
+      },
+      {
+        column: "departmentId",
+        value: selectedDepartment?.id
+      },
+      {
+        column: "year",
+        value: date?.value.toString()
+      },
+      {
+        column: "seasonId",
+        value: selectedSeason?.id
+      }
+    ];
+    const filteredData = defaultFilteredArrayValue.filter( item => item.value?.length );
+    dispatch( fetchStyleByBuyerDepartmentYearAndSeason( filteredData ) );
     setYear( date );
   };
 

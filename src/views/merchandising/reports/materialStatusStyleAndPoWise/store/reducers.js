@@ -9,8 +9,7 @@ import { mapArrayToDropdown } from '@utility/commonHelper';
 import {
   BUYER_CHANGE_MATERIAL_STATUS_STYLE_AND_PO_WISE,
   FETCH_BUYER_MATERIAL_STATUS_STYLE_AND_PO_WISE,
-  FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_ITEM_DETAILS,
-  FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_WISE,
+  FETCH_INDEX_MATERIAL_STATUS_STYLE_AND_PO_WISE, FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_WISE,
   FETCH_PURCHASE_ORDER_BY_STYLE_ID_MATERIAL_STATUS,
   FETCH_STYLE_MATERIAL_STATUS_STYLE_AND_PO_WISE,
   LOADING,
@@ -78,25 +77,27 @@ export const materialStatusStyleAndPOWiseReducer = ( state = initialState, actio
     }
 
     case FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_WISE: {
+      const metiral = [... new Set( payload?.data?.map( item => item.category ) )];
+      const materialStatusWithDetails = metiral?.map( item => ( {
+        category: item,
+        itemDetails: payload?.data?.filter( detail => detail.category === item )
+      } ) );
       return {
         ...state,
-        materailStatusStyleAndPoWise: payload?.data?.map( item => ( {
+        materailStatusStyleAndPoWise: materialStatusWithDetails?.map( item => ( {
           ...item,
           isOpen: false,
-          isLoading: false,
-          itemDetails: []
+          isLoading: false
         } ) ),
         isLoadingMaterialStatus: payload.isLoadingMaterialStatus
       };
     }
 
-    case FETCH_MATERIAL_STATUS_STYLE_AND_PO_WISE_BUYER_AND_STYLE_ITEM_DETAILS: {
-      const { index, data } = payload;
+    case FETCH_INDEX_MATERIAL_STATUS_STYLE_AND_PO_WISE: {
       const _details = [...state.materailStatusStyleAndPoWise];
-      const materialDetails = _details[index];
+      const materialDetails = _details[payload];
       materialDetails.isOpen = !materialDetails.isOpen;
-      materialDetails.itemDetails = data;
-      _details[index] = materialDetails;
+      _details[payload] = materialDetails;
       return {
         ...state,
         materailStatusStyleAndPoWise: _details

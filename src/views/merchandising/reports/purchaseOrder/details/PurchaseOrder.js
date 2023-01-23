@@ -313,14 +313,15 @@ const PurchaseOrder = () => {
                             Style
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
-                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.styleList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.styleNumber && <li>{i.styleNumber}</li>}</ul> ) )]}</div>
+
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.poDetailsList?.map( i => i.styleNumber ) )].map( item => <ul key={uuid()} className='pl-1 ml-1'>{item && <li>{item}</li>}</ul> )}</div>
                         </div>
                         <div className="custom-form-main">
                           <Label className="custom-form-label " for="exportPo">
                             Buyer PO
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
-                          <div className="d-flex flex-wrap">{[...new Set( pos?.buyerPoList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.buyerPONumber && <li>{i.buyerPONumber}</li>}</ul> ) )]}</div>
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.poDetailsList?.map( i => i.orderNumber ) )].map( item => <ul key={uuid()} className='pl-1 ml-1'>{item && <li>{item}</li>}</ul> )}</div>
                         </div>
                       </Row>
                     </Col>
@@ -361,7 +362,7 @@ const PurchaseOrder = () => {
                   </FormGroup>
 
                   <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <Table responsive bordered hover size="sm" className="custom-table">
+                    <Table bordered hover size="sm" className="custom-table">
                       <thead className={`text-center table-bordered`}>
                         <tr>
                           <th>SL NO</th>
@@ -377,27 +378,27 @@ const PurchaseOrder = () => {
                       </thead>
 
                       <tbody>
-                        {pos?.poList?.map( ( d, index ) => {
+                        {pos?.poDetailsList?.map( ( d, index ) => {
                           return (
                             <tr key={uuid()}>
                               <td className='text-center'>{index + 1}</td>
-                              <td>{d?.itemGroupName}</td>
-                              <td>{d?.itemSubGroupName}</td>
-                              <td style={{ maxWidth: "550px" }}>{d?.itemName}</td>
-                              <td>{d?.orderUom}</td>
-                              <td className="text-right">{d?.orderQuantity}</td>
-                              <td className="text-right">{d?.orderRate}</td>
+                              <td>{d?.itemGroup}</td>
+                              <td>{d?.itemSubGroup}</td>
+                              <td style={{ maxWidth: "550px" }}>{d?.itemDescription}</td>
+                              <td>{d?.uom}</td>
+                              <td className="text-right">{d?.quantity}</td>
+                              <td className="text-right">{d?.ratePerUnit}</td>
                               <td className="text-right">{d?.amount}</td>
                               <td>{d?.remarks}</td>
                             </tr>
                           );
                         } )}
                         <tr className="font-weight-bold text-right">
-                          <td className='text-left' colSpan={4}>In Word : {decimalToWord( Number( customSum( pos?.poList?.map( item => Number( item.amount ) ) ).toFixed( 4 ) ) )} Only</td>
+                          <td className='text-left' colSpan={4}>In Word : {decimalToWord( Number( customSum( pos?.poDetailsList?.map( item => Number( item.amount ) ) )?.toFixed( 4 ) ) )} Only</td>
                           <td>Total</td>
-                          <td>{customSum( pos?.poList?.map( item => Number( item.orderQuantity ) ) ).toFixed( 4 )}</td>
+                          <td>{customSum( pos?.poDetailsList?.map( item => Number( item.quantity ) ) )?.toFixed( 4 )}</td>
                           <td></td>
-                          <td>{customSum( pos?.poList?.map( item => Number( item.amount ) ) ).toFixed( 4 )}</td>
+                          <td>{customSum( pos?.poDetailsList?.map( item => Number( item.amount ) ) )?.toFixed( 4 )}</td>
                           <td></td>
                         </tr>
 
@@ -460,8 +461,26 @@ const PurchaseOrder = () => {
 
                 <Row className="pt-2 pr-3 pl-3 pb-1">
                   <Col xs={12} className="mb-0">
-                    <div className="border p-1" style={{ height: '100px' }}>
+                    <div className="border p-1" style={{ height: '270px' }}>
                       <div className="pb-1">{'Terms & Conditions :'}</div>
+                      <div>
+                        <h4>Must be mentioned in the PI:</h4>
+                        <ul>
+                          <li>Country of origin.</li>
+                          <li>EBIN number (For local supplier).</li>
+                          <li>Gross & Net weight.</li>
+                          <li>HS Code number.</li>
+                          <li>Shipment Date.</li>
+                          <li>Mode of Shipment: By Sea/Air</li>
+                          <li>Port of Destination: Chattogram-By Sea/ Dhaka-By Air</li>
+                          <li>Port of Loading:</li>
+                          <li>Shipping Mark (Applicant name must be mentioned in shipping mark):</li>
+                          <li>Beneficiary’s bank details (Bank Name, Address, AC No. Swift code, AC Name):</li>
+                          <li>Tolerance: 2/3/4/5% (Color wise Quantity + Amount)</li>
+                          <li>Freight Charges (If CFR/CNF Shipment):</li>
+                          <li>Additional shipments will not be accepted.</li>
+                        </ul>
+                      </div>
                     </div>
                   </Col>
                   <Col xs={12} className="mb-0">

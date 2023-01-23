@@ -367,13 +367,13 @@ const BudgetSheet = () => {
                         <tr>
                           <td>Fabric</td>
                           <td className="text-right">{( totalFabricAmount() ).toFixed( 4 )}</td>
-                          <td className="text-right">{isFinite( totalOrderQty() / totalFabricAmount() ) ? ( totalOrderQty() / totalFabricAmount() ).toFixed( 4 ) : '0.0000'}</td>
+                          <td className="text-right">{isFinite( totalFabricAmount() / totalOrderQty() ) ? ( totalFabricAmount() / totalOrderQty() ).toFixed( 4 ) : '0.0000'}</td>
                           <td className="text-right">{isFinite( totalFabricAmount() / totalCostOfProduction() ) ? ( totalFabricAmount() / totalCostOfProduction() * 100 ).toFixed( 2 ) : '0.00'} % </td>
                         </tr>
                         <tr>
                           <td>Accessories</td>
                           <td className="text-right">{( totalAccosoriesAmount() ).toFixed( 4 )}</td>
-                          <td className="text-right">{isFinite( totalOrderQty() / totalAccosoriesAmount() ) ? ( totalOrderQty() / totalAccosoriesAmount() ).toFixed( 4 ) : '0.0000'}</td>
+                          <td className="text-right">{isFinite( totalAccosoriesAmount() / totalOrderQty() ) ? ( totalAccosoriesAmount() / totalOrderQty() ).toFixed( 4 ) : '0.0000'}</td>
                           <td className="text-right">{isFinite( totalAccosoriesAmount() / totalCostOfProduction() ) ? ( totalAccosoriesAmount() / totalCostOfProduction() * 100 ).toFixed( 2 ) : '0.00'} %</td>
                         </tr>
                         {budgetSheet?.summaryList
@@ -384,7 +384,7 @@ const BudgetSheet = () => {
                                 <td>{item?.costingGroupName}</td>
                                 <td className="text-right">{( item?.costingGroupAmount ).toFixed( 4 )}</td>
                                 <td className="text-right">
-                                  {isFinite( totalOrderQty() / item?.costingGroupAmount ) ? ( totalOrderQty() / item?.costingGroupAmount ).toFixed( 4 ) : '0.0000'}
+                                  {isFinite( item?.costingGroupAmount / totalOrderQty() ) ? ( item?.costingGroupAmount / totalOrderQty() ).toFixed( 4 ) : '0.0000'}
                                 </td>
                                 <td className="text-right">{isFinite( item?.costingGroupAmount / totalCostOfProduction() ) ? ( item?.costingGroupAmount / totalCostOfProduction() * 100 ).toFixed( 2 ) : '0.00'} %</td>
                               </tr>
@@ -393,7 +393,7 @@ const BudgetSheet = () => {
                         <tr className="font-weight-bold">
                           <td>Total Cost</td>
                           <td className="text-right">{sumSummaryValue().toFixed( 4 )}</td>
-                          <td className="text-right">{isFinite( totalOrderQty() / sumSummaryValue() ) ? ( totalOrderQty() / sumSummaryValue() ).toFixed( 4 ) : '0.0000'}</td>
+                          <td className="text-right">{isFinite( sumSummaryValue() / totalOrderQty() ) ? ( sumSummaryValue() / totalOrderQty() ).toFixed( 4 ) : '0.0000'}</td>
                           <td className="text-right"></td>
                         </tr>
 
@@ -401,7 +401,7 @@ const BudgetSheet = () => {
                           <td>CM</td>
                           <td className="text-right">{cmSummaryCost().toFixed( 4 )}</td>
                           <td className="text-right">
-                            {isFinite( totalOrderQty() / cmSummaryCost() ) ? ( totalOrderQty() / cmSummaryCost() ).toFixed( 4 ) : '0.0000'}
+                            {isFinite( cmSummaryCost() / totalOrderQty() ) ? ( cmSummaryCost() / totalOrderQty() ).toFixed( 4 ) : '0.0000'}
                           </td>
 
                           <td className="text-right">{isFinite( cmSummaryCost() / totalCostOfProduction() ) ? ( cmSummaryCost() / totalCostOfProduction() * 100 ).toFixed( 2 ) : '0.00'} %</td>
@@ -411,7 +411,7 @@ const BudgetSheet = () => {
                           <td>Total Cost of Production</td>
                           <td className="text-right">{totalCostOfProduction().toFixed( 4 )}</td>
                           <td className="text-right">
-                            {isFinite( totalOrderQty() / totalCostOfProduction() ) ? ( totalOrderQty() / totalCostOfProduction() ).toFixed( 4 ) : '0.0000'}
+                            {isFinite( totalCostOfProduction() / totalOrderQty() ) ? ( totalCostOfProduction() / totalOrderQty() ).toFixed( 4 ) : '0.0000'}
                           </td>
                           <td className="text-right">100 %</td>
                         </tr>

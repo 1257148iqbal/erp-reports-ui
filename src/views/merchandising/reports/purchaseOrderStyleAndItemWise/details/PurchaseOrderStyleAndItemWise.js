@@ -55,6 +55,7 @@ const PurchaseOrderStyleAndItemWise = () => {
   }, [dispatch, selectedStyle] );
   //#endregion
 
+
   //#region Evets
   // function hanldePrint() {
   //   notify('warning', 'There have no data to print');
@@ -331,7 +332,6 @@ const PurchaseOrderStyleAndItemWise = () => {
                       </div>
                       <div className="custom-form-main h4">{pos?.name}</div>
                       <div className="custom-form-main h4">{pos?.vendorContactName}</div>
-                      {/* <div className="custom-form-main h5">{pos?.shortName}</div> */}
                       <div className="custom-form-main h5">{pos?.fullAddress}</div>
                       <div className="custom-form-main h5">{`Mobile: ${pos?.mobileNumber}`}</div>
                       <div className="custom-form-main h5">{`Phone: ${pos?.phoneNumber}`}</div>
@@ -373,13 +373,6 @@ const PurchaseOrderStyleAndItemWise = () => {
                             Style
                           </Label>
                           <Label className="custom-form-colons "> : </Label>
-                          <div className="custom-form-group ">{[...new Set( pos?.styleList?.map( i => `${i.styleNumber}, ` ) )]}</div>
-                        </div> */}
-                        <div className="custom-form-main">
-                          <Label className="custom-form-label " for="style">
-                            Style
-                          </Label>
-                          <Label className="custom-form-colons "> : </Label>
                           <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.styleList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.styleNumber && <li>{i.styleNumber}</li>}</ul> ) )]}</div>
                         </div>
 
@@ -400,7 +393,22 @@ const PurchaseOrderStyleAndItemWise = () => {
                             <Label className="custom-form-colons "> : </Label>
                             <div className="d-flex flex-wrap">{[...new Set( pos?.styleList?.map( sl => sl.poList?.map( i => <ul key={uuid()} className='pl-1 ml-1'>{i.buyerPONumber && <li>{i.buyerPONumber}</li>}</ul> ) ).flat( 2 ) )]}</div>
                           </div>
-                        )}
+                        )} */}
+                        <div className="custom-form-main">
+                          <Label className="custom-form-label " for="style">
+                            Style
+                          </Label>
+                          <Label className="custom-form-colons "> : </Label>
+
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.poDetailsList?.map( i => i.styleNumber ) )].map( item => <ul key={uuid()} className='pl-1 ml-1'>{item && <li>{item}</li>}</ul> )}</div>
+                        </div>
+                        <div className="custom-form-main">
+                          <Label className="custom-form-label " for="exportPo">
+                            Buyer PO
+                          </Label>
+                          <Label className="custom-form-colons "> : </Label>
+                          <div className="custom-form-group d-flex flex-wrap">{[...new Set( pos?.poDetailsList?.map( i => i.orderNumber ) )].map( item => <ul key={uuid()} className='pl-1 ml-1'>{item && <li>{item}</li>}</ul> )}</div>
+                        </div>
                       </Row>
                     </Col>
                   </Row>
@@ -438,14 +446,14 @@ const PurchaseOrderStyleAndItemWise = () => {
 
                 <Row className="pt-2 pr-3 pl-3 pb-1">
                   <FormGroup tag={Col} xs={12} sm={12} md={12} lg={12} xl={12} className="mt-n1 pt-1">
-                    <Badge color="primary">{`Item and Style Description`}</Badge>
+                    <Badge color="primary">{`Style And PO Description`}</Badge>
                   </FormGroup>
                   {selectedPoAndStyle.value === 'Style Wise' ? (
                     <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Table responsive bordered hover size="sm" className="custom-table">
+                      <Table bordered hover size="sm" className="custom-table">
                         <thead className={`text-center table-bordered`}>
                           <tr>
-                            <th>SL NO</th>
+                            {/* <th>SL NO</th> */}
                             <th>Style No</th>
                             <th>Item Group</th>
                             <th>Item Sub Group</th>
@@ -459,42 +467,41 @@ const PurchaseOrderStyleAndItemWise = () => {
                         </thead>
 
                         <tbody>
-                          {pos?.styleList?.map( ( d, index ) => {
+                          {pos?.poDetails?.map( ( d, index ) => {
                             return (
                               <Fragment key={uuid()}>
                                 <tr>
-                                  <td rowSpan={d.itemList?.length + 1}>{index + 1}</td>
-                                  <td rowSpan={d.itemList?.length + 1}>{d?.styleNumber}</td>
+                                  {/* <td rowSpan={d.styleWiseDetails?.length + 1}>{index + 1}</td> */}
+                                  <td rowSpan={d.styleWiseDetails?.length + 1}>{d?.styleNumber}</td>
                                 </tr>
-
-                                {d?.itemList?.map( il => (
+                                {d?.styleWiseDetails?.map( il => (
                                   <tr key={uuid()}>
-                                    <td>{il?.itemGroupName}</td>
-                                    <td>{il?.itemSubGroupName}</td>
-                                    <td>{il?.itemName}</td>
-                                    <td>{il?.orderUom}</td>
-                                    <td className="text-right">{il?.orderQuantity}</td>
-                                    <td className="text-right">{il?.orderRate}</td>
+                                    <td>{il?.itemGroup}</td>
+                                    <td>{il?.itemSubGroup}</td>
+                                    <td style={{ maxWidth: "550px" }}>{il?.itemDescription}</td>
+                                    <td>{il?.uom}</td>
+                                    <td className="text-right">{il?.quantity}</td>
+                                    <td className="text-right">{il?.ratePerUnit}</td>
                                     <td className="text-right">{il?.amount}</td>
                                     <td>{il?.remarks}</td>
                                   </tr>
                                 ) )}
                                 <tr className="font-weight-bold text-right">
-                                  <td colSpan={6}>Total</td>
-                                  <td>{customSum( d?.itemList?.map( item => Number( item.orderQuantity ) ) ).toFixed( 4 )}</td>
+                                  <td colSpan={5}>Total</td>
+                                  <td>{customSum( d?.styleWiseDetails?.map( item => Number( item.quantity ) ) ).toFixed( 4 )}</td>
                                   <td></td>
-                                  <td>{customSum( d?.itemList?.map( item => Number( item.amount ) ) ).toFixed( 4 )}</td>
+                                  <td>{customSum( d?.styleWiseDetails?.map( item => Number( item.amount ) ) ).toFixed( 4 )}</td>
                                   <td></td>
                                 </tr>
                               </Fragment>
                             );
                           } )}
                           <tr className="font-weight-bold text-right">
-                            <td className='text-left' colSpan={5}>US Dollar : {decimalToWord( Number( customSum( pos?.styleList?.map( item => item.itemList?.map( il => Number( il.amount ) ) ).flat( 2 ) ).toFixed( 4 ) ) )} Only</td>
+                            <td className='text-left' colSpan={5}>US Dollar : {decimalToWord( Number( customSum( pos?.poDetails?.map( item => item.styleWiseDetails?.map( il => Number( il.amount ) ) ).flat( 2 ) ).toFixed( 4 ) ) )} Only</td>
                             <td >Grand Total</td>
-                            <td>{customSum( pos?.styleList?.map( item => item.itemList?.map( il => Number( il.orderQuantity ) ) ).flat( 2 ) ).toFixed( 4 )}</td>
+                            <td>{customSum( pos?.poDetails?.map( item => item.styleWiseDetails?.map( il => Number( il.quantity ) ) ).flat( 2 ) ).toFixed( 4 )}</td>
                             <td></td>
-                            <td>{customSum( pos?.styleList?.map( item => item.itemList?.map( il => Number( il.amount ) ) ).flat( 2 ) ).toFixed( 4 )}</td>
+                            <td>{customSum( pos?.poDetails?.map( item => item.styleWiseDetails?.map( il => Number( il.amount ) ) ).flat( 2 ) ).toFixed( 4 )}</td>
                             <td></td>
                           </tr>
                         </tbody>
@@ -502,7 +509,7 @@ const PurchaseOrderStyleAndItemWise = () => {
                     </Col>
                   ) : (
                     <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Table responsive bordered hover size="sm" className="custom-table">
+                      <Table bordered hover size="sm" className="custom-table">
                         <thead className={`text-center table-bordered`}>
                           <tr>
                             <th>PO No</th>
@@ -518,29 +525,36 @@ const PurchaseOrderStyleAndItemWise = () => {
                         </thead>
 
                         <tbody>
-                          {pos?.styleList?.map( d => {
+                          {pos?.poDetails?.map( d => {
                             return (
                               <Fragment key={uuid()}>
                                 <tr>
                                   <td colSpan={7} className="font-weight-bold">{`Style No : ${d?.styleNumber}`}</td>
                                 </tr>
-                                {d?.poList?.map( pl => (
+                                {d?.orderNumber?.map( pl => (
                                   <Fragment key={uuid()}>
                                     <tr>
-                                      <td rowSpan={pl?.itemList?.length + 1}>{pl?.buyerPONumber}</td>
+                                      <td rowSpan={pl?.styleWiseDetails?.length + 1}>{pl?.orderNumber}</td>
                                     </tr>
-                                    {pl?.itemList?.map( il => (
+                                    {pl?.styleWiseDetails?.map( il => (
                                       <tr key={uuid()}>
-                                        <td>{il?.itemGroupName}</td>
-                                        <td>{il?.itemSubGroupName}</td>
-                                        <td>{il?.itemName}</td>
-                                        <td>{il?.orderUom}</td>
-                                        <td className="text-right">{il?.orderQuantity}</td>
-                                        <td className="text-right">{il?.orderRate}</td>
+                                        <td>{il?.itemGroup}</td>
+                                        <td>{il?.itemSubGroup}</td>
+                                        <td style={{ maxWidth: "550px" }}>{il?.itemDescription}</td>
+                                        <td>{il?.uom}</td>
+                                        <td className="text-right">{il?.quantity}</td>
+                                        <td className="text-right">{il?.ratePerUnit}</td>
                                         <td className="text-right">{il?.amount}</td>
                                         <td>{il?.remarks}</td>
                                       </tr>
                                     ) )}
+                                    <tr className="font-weight-bold text-right">
+                                      <td colSpan={5}>Total</td>
+                                      <td>{customSum( pl?.styleWiseDetails?.map( item => Number( item.quantity ) ) ).toFixed( 4 )}</td>
+                                      <td></td>
+                                      <td>{customSum( pl?.styleWiseDetails?.map( item => Number( item.amount ) ) ).toFixed( 4 )}</td>
+                                      <td></td>
+                                    </tr>
                                   </Fragment>
                                 ) )}
                               </Fragment>
@@ -551,13 +565,13 @@ const PurchaseOrderStyleAndItemWise = () => {
                             <td colSpan={5}>Grand Total</td>
                             <td>
                               {customSum(
-                                pos?.styleList?.map( sl => sl.poList?.map( item => item.itemList?.map( il => Number( il.orderQuantity ) ) ) ).flat( 3 )
+                                pos?.poDetails?.map( sl => sl.orderNumber?.map( item => item.styleWiseDetails?.map( il => Number( il.quantity ) ) ) ).flat( 3 )
                               ).toFixed( 4 )}
                             </td>
                             <td></td>
                             <td>
                               {customSum(
-                                pos?.styleList?.map( sl => sl.poList?.map( item => item.itemList?.map( il => Number( il.amount ) ) ) ).flat( 3 )
+                                pos?.poDetails?.map( sl => sl.orderNumber?.map( item => item.styleWiseDetails?.map( il => Number( il.amount ) ) ) ).flat( 3 )
                               ).toFixed( 4 )}
                             </td>
                             <td></td>
@@ -623,8 +637,26 @@ const PurchaseOrderStyleAndItemWise = () => {
 
                 <Row className="pt-2 pr-3 pl-3 pb-1">
                   <Col xs={12} className="mb-0">
-                    <div className="border p-1" style={{ height: '100px' }}>
+                    <div className="border p-1" style={{ height: '270px' }}>
                       <div className="pb-1">{'Terms & Conditions :'}</div>
+                      <div>
+                        <h4>Must be mentioned in the PI:</h4>
+                        <ul>
+                          <li>Country of origin.</li>
+                          <li>EBIN number (For local supplier).</li>
+                          <li>Gross & Net weight.</li>
+                          <li>HS Code number.</li>
+                          <li>Shipment Date.</li>
+                          <li>Mode of Shipment: By Sea/Air</li>
+                          <li>Port of Destination: Chattogram-By Sea/ Dhaka-By Air</li>
+                          <li>Port of Loading:</li>
+                          <li>Shipping Mark (Applicant name must be mentioned in shipping mark):</li>
+                          <li>Beneficiary’s bank details (Bank Name, Address, AC No. Swift code, AC Name):</li>
+                          <li>Tolerance: 2/3/4/5% (Color wise Quantity + Amount)</li>
+                          <li>Freight Charges (If CFR/CNF Shipment):</li>
+                          <li>Additional shipments will not be accepted.</li>
+                        </ul>
+                      </div>
                     </div>
                   </Col>
                   <Col xs={12} className="mb-0">
@@ -640,23 +672,6 @@ const PurchaseOrderStyleAndItemWise = () => {
                   </Col>
                 </Row>
 
-              </Card>
-
-              <Card className="pt-2 pr-3 pl-3 pb-1 ml-1">
-                <Row className="mb-0">
-                  <Col xs={12}>
-                    <Row className="d-flex justify-content-between">
-                      <div>
-                        <Label className="h5">Report Generated On :</Label>
-                        <span>{` ${pos?.reportGeneratedOn ? pos?.reportGeneratedOn : ''}`}</span>
-                      </div>
-                      <div>
-                        <Label className="h5">User: </Label>
-                        <span>{` ${pos?.user ? pos?.user : ""}`}</span>
-                      </div>
-                    </Row>
-                  </Col>
-                </Row>
               </Card>
             </div>
           ) : (

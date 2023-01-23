@@ -7,7 +7,7 @@
 */
 
 import { baseAxios, merchandisingAxios } from '@services';
-import { PURCHASE_ORDER_API, PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
+import { PURCHASE_ORDER_API, STYLES_DETAILS_API } from '@services/api-end-points/merchandising/v1';
 import {
   FETCH_ALL_PO_BY_SO_STYLE_AND_ITEM_WISE,
   FETCH_BUYER_PURCHASE_ORDER_STYLE_AND_ITEM_WISE,
@@ -59,7 +59,7 @@ export const fetchAllPosStyleAndItemWiseByStyleId = ( styleId, searchKey ) => as
 
 //Get Data by Query
 export const fetchPurchaseOrderStyleAndItemWise = id => async dispatch => {
-  const response = await baseAxios.get( PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_and_item_wise_by_so_id( id ) );
+  const response = await baseAxios.get( PURCHASE_ORDER_API.fetch_po_by_supplier_orders( id ) );
   const data = response.data.data;
   dispatch( {
     type: FETCH_PURCHASE_ORDER_STYLE_AND_ITEM_WISE,
@@ -68,8 +68,18 @@ export const fetchPurchaseOrderStyleAndItemWise = id => async dispatch => {
 };
 
 //Get Data by Query
+// export const fetchPurchaseOrderStyleAndPoWise = id => async dispatch => {
+//   const response = await baseAxios.get( PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_and_po_wise_by_so_id( id ) );
+//   const data = response.data.data;
+//   dispatch( {
+//     type: FETCH_PURCHASE_ORDER_STYLE_AND_PO_WISE,
+//     payload: data
+//   } );
+// };
+
+//Get Data by Query
 export const fetchPurchaseOrderStyleAndPoWise = id => async dispatch => {
-  const response = await baseAxios.get( PURCHASE_ORDER_STYLE_AND_ITEM_WIESE_API.fetch_po_style_and_po_wise_by_so_id( id ) );
+  const response = await baseAxios.get( PURCHASE_ORDER_API.fetch_po_by_supplier_orders( id ) );
   const data = response.data.data;
   dispatch( {
     type: FETCH_PURCHASE_ORDER_STYLE_AND_PO_WISE,
